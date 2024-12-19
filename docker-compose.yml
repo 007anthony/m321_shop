@@ -2,3 +2,24 @@ version: 'v3'
 services:
   eureka:
     image: springcloud/eureka
+    ports:
+      - 8761:8761
+  user-db:
+    image: mariadb
+    ports:
+      - 3306:3306
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: true
+      MARIADB_USER_FILE: /run/secrets/db_user
+      MARIADB_PASSWORD_FILE: /run/secrets/db_password
+      MARIADB_DATABASE: user
+
+    secrets:
+      - db_user
+      - db_password
+
+secrets:
+  db_user:
+    file: ./secrets/db-user.txt
+  db_password:
+    file: ./secrets/db-password.txt

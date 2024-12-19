@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: "user-manager"
+  datasource:
+    url: "jdbc:mariadb://${DB_HOST: localhost}:${DB_PORT: 3306}/user"
+    username: "${DB_USER}"
+    password: "${DB_PASSWORD}"
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
