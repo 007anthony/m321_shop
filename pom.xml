@@ -13,6 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>m321-shop</name>
     <description>m321-shop</description>
+    <packaging>pom</packaging>
     <url/>
     <licenses>
         <license/>
@@ -29,6 +30,7 @@
     <properties>
         <java.version>21</java.version>
         <spring-cloud.version>2024.0.0</spring-cloud.version>
+        <org.mapstruct.version>1.6.0.Beta2</org.mapstruct.version>
     </properties>
     <dependencies>
         <dependency>
@@ -62,6 +64,11 @@
             <version>${spring-cloud.version}</version>
             <type>pom</type>
             <scope>import</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
         </dependency>
     </dependencies>
 
