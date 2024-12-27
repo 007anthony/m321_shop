@@ -1,6 +1,8 @@
 package ch.bbw.ap.shop.usermanager.controller;
 
+import ch.bbw.ap.shop.usermanager.mapper.UserMapper;
 import ch.bbw.ap.shop.usermanager.model.User;
+import ch.bbw.ap.shop.usermanager.model.request.UserCreate;
 import ch.bbw.ap.shop.usermanager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +21,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @PostMapping
-    public ResponseEntity<User> signUp(@RequestBody User user) {
-        User response = userService.createUser(user);
+    public ResponseEntity<User> signUp(@RequestBody UserCreate request) {
+        User response = userService.createUser(userMapper.map(request));
 
         if(response == null) {
             return ResponseEntity.status(409).build();
