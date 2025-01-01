@@ -9,3 +9,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+
+user-manager:
+  auth:
+    jwt:
+      private-key:
+        algorithm: rsa
+        location: keys/private_key.pem
