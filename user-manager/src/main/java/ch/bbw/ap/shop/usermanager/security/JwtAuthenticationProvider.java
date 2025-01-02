@@ -53,7 +53,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
             LOGGER.error("User doesn't exist");
         }
 
-        return null;
+        return new JwtToken((String) authentication.getCredentials());
     }
 
     @Override
