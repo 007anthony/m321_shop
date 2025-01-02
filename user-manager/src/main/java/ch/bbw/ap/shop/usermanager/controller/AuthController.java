@@ -27,19 +27,26 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/login")
-    // TODO: add circuitbreaker
     public ResponseEntity<String> login(@RequestBody LoginUser login) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
         try {
             User user = userService.getByUsername(login.getUsername());
-            if (!BCrypt.checkpw(login.getPassword(), user.getPassword())) {
+            if (user.getPassword() == null || !BCrypt.checkpw(login.getPassword(), user.getPassword())) {
                 return ResponseEntity.status(401).build();
             }
 
             return ResponseEntity.ok(jwtUtils.generateToken(user.getUsername()));
-        }
-        catch(UsernameNotFoundException e) {
+        } catch (UsernameNotFoundException e) {
             return ResponseEntity.status(401).build();
         }
 
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<User> me() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        User user = userService.getByUsername((String) auth.getPrincipal());
+
+        return ResponseEntity.ok(user);
     }
 }

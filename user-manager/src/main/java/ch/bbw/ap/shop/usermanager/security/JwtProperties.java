@@ -1,12 +1,7 @@
 package ch.bbw.ap.shop.usermanager.security;
 
-import io.jsonwebtoken.security.Keys;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-
-import javax.crypto.SecretKey;
-import java.security.cert.Certificate;
 
 @Configuration
 @ConfigurationProperties(prefix = "user-manager.auth.jwt")
