@@ -4,14 +4,12 @@ import ch.bbw.ap.shop.usermanager.mapper.UserMapper;
 import ch.bbw.ap.shop.usermanager.model.User;
 import ch.bbw.ap.shop.usermanager.model.request.UserCreate;
 import ch.bbw.ap.shop.usermanager.service.UserService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
@@ -27,13 +25,23 @@ public class UserController {
     public ResponseEntity<User> signUp(@RequestBody UserCreate request) {
         User response = userService.createUser(userMapper.map(request));
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
         if (response == null) {
             return ResponseEntity.status(409).build();
         }
 
         return ResponseEntity.ok(response);
+
+    }
+
+    @DeleteMapping("/me")
+    public ResponseEntity deleteMe()  {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+
+
+        boolean response = userService.delete((Long) authentication.getPrincipal());
+
+        return response? ResponseEntity.ok().build(): ResponseEntity.notFound().build();
 
     }
 

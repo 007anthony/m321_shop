@@ -43,7 +43,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 if (auth.isAuthenticated()) {
                     logger.info("Authentication: ", auth);
                     logger.debug("isAuthenticated: " + auth.isAuthenticated());
-                    logger.info("Authenticated as " + auth.getPrincipal());
+                    logger.info("Authenticated as " + auth.getName());
 
                     Optional<GrantedAuthority> authority = (Optional<GrantedAuthority>) auth.getAuthorities().stream().findFirst();
                     if (authority.isPresent()) {
@@ -57,7 +57,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 } else {
                     logger.debug("Not authenticated");
-                    response.sendError(401, "Unauthorized");
+                    response.sendError(401, "User doesn't exist anymore");
                     return;
                 }
 
