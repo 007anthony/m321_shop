@@ -42,4 +42,13 @@ public class AuthController {
         }
 
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<User> me() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        User user = userService.getByUsername((String) auth.getPrincipal());
+
+        return ResponseEntity.ok(user);
+    }
 }

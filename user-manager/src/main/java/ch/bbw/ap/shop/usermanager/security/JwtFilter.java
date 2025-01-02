@@ -37,13 +37,15 @@ public class JwtFilter extends OncePerRequestFilter {
         try {
             if(jwt != null && jwtUtils.validateToken(jwt)) {
                 Authentication auth = authManager.authenticate(new JwtToken(jwt));
-                if(auth != null) {
+                if(auth.isAuthenticated()) {
                     logger.debug("isAuthenticated: " + auth.isAuthenticated());
                     logger.info("Authenticated as " + auth.getPrincipal());
                     SecurityContextHolder.getContext().setAuthentication(auth);
                 }
                 else {
                     logger.debug("Not authenticated");
+                    response.sendError(401, "Unauthorized");
+                    return;
                 }
 
             }
