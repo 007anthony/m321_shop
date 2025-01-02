@@ -40,6 +40,7 @@ public class SecurityConfig {
                         authorization
                                 .requestMatchers(HttpMethod.POST, "/users", "/auth/login").permitAll()
                                 .requestMatchers("/error", "/roles").permitAll()
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated())
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);

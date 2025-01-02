@@ -16,8 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-import java.util.InputMismatchException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -51,6 +50,22 @@ public class UserServiceImpl implements UserService {
 
         return user;
     }
+
+    @Override
+    public List<User> getAll() {
+        Iterator<User> iterator = userRepository.findAll().iterator();
+
+        List<User> users = new ArrayList();
+        while(iterator.hasNext()) {
+            User user = iterator.next();
+
+            users.add(user);
+        }
+
+
+        return users;
+    }
+
 
     @Override
     public Optional<User> getByUsername(String username) throws UsernameNotFoundException {
