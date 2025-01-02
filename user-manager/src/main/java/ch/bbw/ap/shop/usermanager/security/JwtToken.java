@@ -7,19 +7,22 @@ import java.util.Collection;
 
 public class JwtToken implements Authentication {
 
+    private final Long id;
     private final String username;
     private final String credentials;
     private final Collection<GrantedAuthority> authorities;
     private boolean isAuthenticated;
 
     public JwtToken(String credentials) {
+        this.id = null;
         this.username = null;
         this.credentials = credentials;
         this.authorities = null;
         setAuthenticated(false);
     }
 
-    public JwtToken(String username, String credentials, Collection<GrantedAuthority> authorities) {
+    public JwtToken(Long id, String username, String credentials, Collection<GrantedAuthority> authorities) {
+        this.id = id;
         this.username = username;
         this.credentials = credentials;
         this.authorities = authorities;
@@ -43,7 +46,7 @@ public class JwtToken implements Authentication {
 
     @Override
     public Object getPrincipal() {
-        return this.username;
+        return this.id;
     }
 
     @Override
@@ -58,6 +61,6 @@ public class JwtToken implements Authentication {
 
     @Override
     public String getName() {
-        return null;
+        return this.username;
     }
 }

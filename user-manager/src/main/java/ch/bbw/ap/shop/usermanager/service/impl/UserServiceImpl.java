@@ -30,32 +30,50 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUser(User user) {
 
-        if (this.getByUsername(user.getUsername()) != null) {
+        Optional<User> userOptional = this.getByUsername(user.getUsername());
+
+        if(userOptional.isPresent()) {
             return null;
         }
+
         userRepository.save(user);
 
         return user;
     }
 
     @Override
-    public User getByUsername(String username) throws UsernameNotFoundException {
+    public Optional<User> getByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = circuitBreaker.run(
                 () -> userRepository.findUserByUsername(username),
-                throwable -> getByUsernameFallback(throwable)
+                throwable -> getFallback(throwable)
         );
 
-        if (user.isEmpty()) {
-            throw new UsernameNotFoundException(username);
-        }
 
 
-        return user.get();
+        return user;
 
 
     }
 
-    private Optional<User> getByUsernameFallback(Throwable e) {
+    @Override
+    public Optional<User> getById(Long id) {
+        return circuitBreaker.run(
+                () -> userRepository.findById(id),
+                throwable -> getFallback(throwable)
+        );
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        Optional<User> user = this.getById(id);
+        if(user.isPresent()) {
+            userRepository.delete(user.get());
+            return true;
+        }
+        return false;
+    }
+
+    private Optional<User> getFallback(Throwable e) {
         LOGGER.error("Database is unavailable: ", e);
         User user = new User();
 

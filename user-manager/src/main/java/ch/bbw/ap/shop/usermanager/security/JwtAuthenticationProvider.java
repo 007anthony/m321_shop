@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class JwtAuthenticationProvider implements AuthenticationProvider {
@@ -38,9 +39,17 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
             LOGGER.debug(username);
 
             LOGGER.debug("Retrieve User from database");
-            User user = userService.getByUsername(username);
-            return new JwtToken(user.getUsername(), token, List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name())));
+            Optional<User> userOptional = userService.getByUsername(username);
+            if(userOptional.isPresent()) {
+                User user = userOptional.get();
 
+                return new JwtToken(
+                        user.getId(),
+                        user.getUsername(),
+                        token,
+                        List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
+                );
+            }
         } catch (NoSuchAlgorithmException | InvalidKeySpecException | IOException e) {
             LOGGER.error("JWT Validation failed: ", e);
         } catch (UsernameNotFoundException e) {

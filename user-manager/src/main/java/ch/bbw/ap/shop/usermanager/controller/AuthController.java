@@ -4,6 +4,7 @@ import ch.bbw.ap.shop.usermanager.model.User;
 import ch.bbw.ap.shop.usermanager.model.request.LoginUser;
 import ch.bbw.ap.shop.usermanager.security.JwtUtils;
 import ch.bbw.ap.shop.usermanager.service.UserService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -28,16 +30,20 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginUser login) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
-        try {
-            User user = userService.getByUsername(login.getUsername());
-            if (user.getPassword() == null || !BCrypt.checkpw(login.getPassword(), user.getPassword())) {
-                return ResponseEntity.status(401).build();
-            }
 
-            return ResponseEntity.ok(jwtUtils.generateToken(user.getUsername()));
-        } catch (UsernameNotFoundException e) {
+        Optional<User> userOptional = userService.getByUsername(login.getUsername());
+
+        if(userOptional.isEmpty()) {
             return ResponseEntity.status(401).build();
         }
+
+        User user = userOptional.get();
+
+        if(user.getPassword() == null || !BCrypt.checkpw(login.getPassword(), user.getPassword())) {
+            return ResponseEntity.status(401).build();
+        }
+
+        return ResponseEntity.ok(jwtUtils.generateToken(user.getUsername()));
 
     }
 
@@ -45,8 +51,12 @@ public class AuthController {
     public ResponseEntity<User> me() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        User user = userService.getByUsername((String) auth.getPrincipal());
+        Optional<User> user = userService.getById((Long) auth.getPrincipal());
 
-        return ResponseEntity.ok(user);
+        if(user.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(user.get());
     }
 }
