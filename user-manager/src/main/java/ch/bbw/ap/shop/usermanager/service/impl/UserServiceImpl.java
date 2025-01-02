@@ -1,7 +1,10 @@
 package ch.bbw.ap.shop.usermanager.service.impl;
 
+import ch.bbw.ap.shop.usermanager.mapper.UserMapper;
 import ch.bbw.ap.shop.usermanager.model.Role;
 import ch.bbw.ap.shop.usermanager.model.User;
+import ch.bbw.ap.shop.usermanager.model.request.UserCreate;
+import ch.bbw.ap.shop.usermanager.model.request.UserEdit;
 import ch.bbw.ap.shop.usermanager.model.request.UserReset;
 import ch.bbw.ap.shop.usermanager.repository.UserRepository;
 import ch.bbw.ap.shop.usermanager.service.UserService;
@@ -25,19 +28,24 @@ public class UserServiceImpl implements UserService {
 
     private final CircuitBreaker circuitBreaker;
 
-    public UserServiceImpl(UserRepository userRepository, CircuitBreakerFactory cbFactory) {
+    private final UserMapper userMapper;
+
+    public UserServiceImpl(UserRepository userRepository, CircuitBreakerFactory cbFactory, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.circuitBreaker = cbFactory.create("userServiceCB");
+        this.userMapper = userMapper;
     }
 
     @Override
-    public User createUser(User user) {
+    public User createUser(UserCreate userCreate) {
 
-        Optional<User> userOptional = this.getByUsername(user.getUsername());
+        Optional<User> userOptional = this.getByUsername(userCreate.getUsername());
 
         if(userOptional.isPresent()) {
             return null;
         }
+
+        User user = this.userMapper.map(userCreate);
 
         userRepository.save(user);
 
@@ -64,6 +72,21 @@ public class UserServiceImpl implements UserService {
                 () -> userRepository.findById(id),
                 throwable -> getFallback(throwable)
         );
+    }
+
+    @Override
+    public Optional<User> editUser(Long id, UserEdit userEdit) {
+        Optional<User> user = this.getById(id);
+
+        if(user.isEmpty()) {
+            return Optional.empty();
+        }
+
+        User mergedUser = this.userMapper.merge(userEdit, user.get());
+
+        userRepository.save(mergedUser);
+
+        return Optional.of(mergedUser);
     }
 
     @Override
