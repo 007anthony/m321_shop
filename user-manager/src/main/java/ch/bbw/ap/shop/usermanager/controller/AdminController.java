@@ -3,6 +3,7 @@ package ch.bbw.ap.shop.usermanager.controller;
 import ch.bbw.ap.shop.usermanager.model.User;
 import ch.bbw.ap.shop.usermanager.model.request.UserEdit;
 import ch.bbw.ap.shop.usermanager.service.UserService;
+import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -59,6 +60,15 @@ public class AdminController {
 
         if(userService.deleteUser(userId)) {
             return ResponseEntity.ok("User deleted");
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/users/{userId}/reset")
+    public ResponseEntity<String> resetPassword(@PathVariable Long userId, @Valid @RequestBody NewPassword password) {
+        if(userService.resetPassword(userId, password.getNewPassword())) {
+            return ResponseEntity.ok("Password was changed successfully");
         }
 
         return ResponseEntity.notFound().build();
