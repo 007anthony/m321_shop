@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/admin")
@@ -21,6 +22,18 @@ public class AdminController {
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userService.getAll();
+    }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<User> getUser(@PathVariable Long userId) {
+        Optional<User> user = userService.getById(userId);
+
+        if(user.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+
+        return ResponseEntity.ok(user.get());
     }
 
     @DeleteMapping("/users/{userId}")
