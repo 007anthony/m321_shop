@@ -1,5 +1,6 @@
 package ch.bbw.ap.shop.usermanager.security;
 
+import ch.bbw.ap.shop.usermanager.model.Role;
 import io.jsonwebtoken.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

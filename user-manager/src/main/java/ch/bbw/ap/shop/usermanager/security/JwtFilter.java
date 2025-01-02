@@ -1,5 +1,6 @@
 package ch.bbw.ap.shop.usermanager.security;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -10,12 +11,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Optional;
 
 public class JwtFilter extends OncePerRequestFilter {
 
@@ -37,10 +41,22 @@ public class JwtFilter extends OncePerRequestFilter {
         try {
             if(jwt != null && jwtUtils.validateToken(jwt)) {
                 Authentication auth = authManager.authenticate(new JwtToken(jwt));
+
                 if(auth.isAuthenticated()) {
+                    logger.info("Authentication: ", auth);
                     logger.debug("isAuthenticated: " + auth.isAuthenticated());
                     logger.info("Authenticated as " + auth.getPrincipal());
+
+                    Optional<GrantedAuthority> authority = (Optional<GrantedAuthority>) auth.getAuthorities().stream().findFirst();
+                    if(authority.isPresent()) {
+                        boolean isAnonymous = authority.get().getAuthority().equals("ROLE_ANONYMOUS");
+                        auth.setAuthenticated(!isAnonymous);
+                    }
+
+
                     SecurityContextHolder.getContext().setAuthentication(auth);
+
+
                 }
                 else {
                     logger.debug("Not authenticated");
@@ -58,6 +74,11 @@ public class JwtFilter extends OncePerRequestFilter {
         catch(MalformedJwtException e) {
             logger.warn("Provided JWT is malformed");
             response.sendError(400, "Malformed JWT provided");
+            return;
+        }
+        catch(ExpiredJwtException e) {
+            logger.warn("Expired JWT");
+            response.sendError(401, "JWT expired");
             return;
         }
 

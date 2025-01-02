@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public class JwtToken implements Authentication {
 
@@ -18,13 +19,13 @@ public class JwtToken implements Authentication {
         this.username = null;
         this.credentials = credentials;
         this.authorities = null;
-        this.isAuthenticated = false;
+        setAuthenticated(false);
     }
     public JwtToken(String username, String credentials, Collection<GrantedAuthority> authorities) {
         this.username = username;
         this.credentials = credentials;
         this.authorities = authorities;
-        this.isAuthenticated = true;
+        this.setAuthenticated(true);
     }
 
     @Override

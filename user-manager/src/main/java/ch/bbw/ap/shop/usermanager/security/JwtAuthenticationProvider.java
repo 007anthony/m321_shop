@@ -2,7 +2,6 @@ package ch.bbw.ap.shop.usermanager.security;
 
 import ch.bbw.ap.shop.usermanager.model.User;
 import ch.bbw.ap.shop.usermanager.service.UserService;
-import io.jsonwebtoken.MalformedJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +39,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
                 LOGGER.debug("Retrieve User from database");
                 User user = userService.getByUsername(username);
-                return new JwtToken(user.getUsername(), token, List.of(new SimpleGrantedAuthority(user.getRole().name())));
+                return new JwtToken(user.getUsername(), token, List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name())));
 
         }
         catch(NoSuchAlgorithmException | InvalidKeySpecException | IOException e) {
