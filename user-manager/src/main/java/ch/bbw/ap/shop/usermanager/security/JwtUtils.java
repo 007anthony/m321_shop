@@ -4,6 +4,7 @@ import ch.bbw.ap.shop.usermanager.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,7 +39,7 @@ public class JwtUtils {
                 .compact();
     }
 
-    public boolean validateToken(String token) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+    public boolean validateToken(String token) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, MalformedJwtException {
         return Jwts.parser()
                 .verifyWith(getPublicKey())
                 .build()

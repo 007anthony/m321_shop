@@ -2,6 +2,7 @@ package ch.bbw.ap.shop.usermanager.security;
 
 import ch.bbw.ap.shop.usermanager.model.User;
 import ch.bbw.ap.shop.usermanager.service.UserService;
+import io.jsonwebtoken.MalformedJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,6 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         String token = (String) authentication.getCredentials();
 
         try {
-            if (jwtUtils.validateToken(token)) {
                 LOGGER.trace("Retrieved Username from Token");
                 String username = jwtUtils.getPrincipal(token);
                 LOGGER.debug(username);
@@ -41,10 +41,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                 LOGGER.debug("Retrieve User from database");
                 User user = userService.getByUsername(username);
                 return new JwtToken(user.getUsername(), token, List.of(new SimpleGrantedAuthority(user.getRole().name())));
-            }
-            else {
-                LOGGER.error("Invalid Token was provided");
-            }
+
         }
         catch(NoSuchAlgorithmException | InvalidKeySpecException | IOException e) {
             LOGGER.error("JWT Validation failed: ", e);

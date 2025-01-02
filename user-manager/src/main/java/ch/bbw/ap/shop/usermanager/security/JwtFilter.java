@@ -1,5 +1,6 @@
 package ch.bbw.ap.shop.usermanager.security;
 
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,6 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 public class JwtFilter extends OncePerRequestFilter {
 
@@ -22,26 +25,38 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     private AuthenticationManager authManager;
 
+    @Autowired
+    private JwtUtils jwtUtils;
+
 
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String jwt =  getTokenFromHeader(request);
 
-        if(jwt != null) {
-            Authentication auth = authManager.authenticate(new JwtToken(jwt));
-            if(auth != null) {
-                logger.debug("isAuthenticated: " + auth.isAuthenticated());
-                logger.info("Authenticated as " + auth.getPrincipal());
-                SecurityContextHolder.getContext().setAuthentication(auth);
+        try {
+            if(jwt != null && jwtUtils.validateToken(jwt)) {
+                Authentication auth = authManager.authenticate(new JwtToken(jwt));
+                if(auth != null) {
+                    logger.debug("isAuthenticated: " + auth.isAuthenticated());
+                    logger.info("Authenticated as " + auth.getPrincipal());
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                }
+                else {
+                    logger.debug("Not authenticated");
+                }
+
             }
             else {
-                logger.debug("Not authenticated");
+                logger.debug("No valid JWT provided");
             }
-
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            logger.error("JWT validation failed: ", e);
         }
-        else {
-            logger.debug("No JWT provided");
+        catch(MalformedJwtException e) {
+            logger.warn("Provided JWT is malformed");
+            response.sendError(400, "Malformed JWT provided");
+            return;
         }
 
         filterChain.doFilter(request, response);
