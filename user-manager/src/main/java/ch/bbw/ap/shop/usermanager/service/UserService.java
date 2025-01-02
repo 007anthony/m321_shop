@@ -21,7 +21,7 @@ public interface UserService {
 
     Optional<User> editUser(Long id, UserEdit userEdit);
 
-    boolean delete(Long id);
+    boolean deleteUser(Long id);
 
     boolean resetPassword(Long id, UserReset reset);
 }

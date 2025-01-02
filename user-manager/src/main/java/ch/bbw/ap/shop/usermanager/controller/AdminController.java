@@ -2,10 +2,12 @@ package ch.bbw.ap.shop.usermanager.controller;
 
 import ch.bbw.ap.shop.usermanager.model.User;
 import ch.bbw.ap.shop.usermanager.service.UserService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,5 +21,21 @@ public class AdminController {
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userService.getAll();
+    }
+
+    @DeleteMapping("/users/{userId}")
+    public ResponseEntity deleteUser(@PathVariable Long userId) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if(auth.getPrincipal() == userId) {
+            return ResponseEntity.badRequest().body("You tried to delete your self. This looks like an error. Please use /users/me to delete yourself.");
+        }
+
+        if(userService.deleteUser(userId)) {
+            return ResponseEntity.ok("User deleted");
+        }
+
+        return ResponseEntity.notFound().build();
     }
 }
