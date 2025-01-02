@@ -1,5 +1,6 @@
 package ch.bbw.ap.shop.usermanager.model.request;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public class UserEdit {
@@ -8,6 +9,7 @@ public class UserEdit {
     private String username;
 
     @NotBlank
+    @Email
     private String email;
 
     public String getUsername() {
