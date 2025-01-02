@@ -1,7 +1,6 @@
 package ch.bbw.ap.shop.usermanager.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.micrometer.core.annotation.Counted;
 import jakarta.persistence.*;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
