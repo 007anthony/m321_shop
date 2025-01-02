@@ -24,4 +24,6 @@ public interface UserService {
     boolean deleteUser(Long id);
 
     boolean resetPassword(Long id, UserReset reset);
+
+    boolean resetPassword(Long id, String newPassword);
 }

@@ -131,6 +131,22 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    @Override
+    public boolean resetPassword(Long id, String newPassword) {
+        Optional<User> userOptional = this.getById(id);
+
+        if(userOptional.isPresent()) {
+            User user = userOptional.get();
+
+            user.setPassword(newPassword);
+
+            return true;
+        }
+
+        return false;
+    }
+
+
     private Optional<User> getFallback(Throwable e) {
         LOGGER.error("Database is unavailable: ", e);
         User user = new User();
