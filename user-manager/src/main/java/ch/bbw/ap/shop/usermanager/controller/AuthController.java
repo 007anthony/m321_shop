@@ -35,8 +35,7 @@ public class AuthController {
             }
 
             return ResponseEntity.ok(jwtUtils.generateToken(user.getUsername()));
-        }
-        catch(UsernameNotFoundException e) {
+        } catch (UsernameNotFoundException e) {
             return ResponseEntity.status(401).build();
         }
 

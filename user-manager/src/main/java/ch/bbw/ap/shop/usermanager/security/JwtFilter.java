@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -33,22 +32,21 @@ public class JwtFilter extends OncePerRequestFilter {
     private JwtUtils jwtUtils;
 
 
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String jwt =  getTokenFromHeader(request);
+        String jwt = getTokenFromHeader(request);
 
         try {
-            if(jwt != null && jwtUtils.validateToken(jwt)) {
+            if (jwt != null && jwtUtils.validateToken(jwt)) {
                 Authentication auth = authManager.authenticate(new JwtToken(jwt));
 
-                if(auth.isAuthenticated()) {
+                if (auth.isAuthenticated()) {
                     logger.info("Authentication: ", auth);
                     logger.debug("isAuthenticated: " + auth.isAuthenticated());
                     logger.info("Authenticated as " + auth.getPrincipal());
 
                     Optional<GrantedAuthority> authority = (Optional<GrantedAuthority>) auth.getAuthorities().stream().findFirst();
-                    if(authority.isPresent()) {
+                    if (authority.isPresent()) {
                         boolean isAnonymous = authority.get().getAuthority().equals("ROLE_ANONYMOUS");
                         auth.setAuthenticated(!isAnonymous);
                     }
@@ -57,26 +55,22 @@ public class JwtFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(auth);
 
 
-                }
-                else {
+                } else {
                     logger.debug("Not authenticated");
                     response.sendError(401, "Unauthorized");
                     return;
                 }
 
-            }
-            else {
+            } else {
                 logger.debug("No valid JWT provided");
             }
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             logger.error("JWT validation failed: ", e);
-        }
-        catch(MalformedJwtException e) {
+        } catch (MalformedJwtException e) {
             logger.warn("Provided JWT is malformed");
             response.sendError(400, "Malformed JWT provided");
             return;
-        }
-        catch(ExpiredJwtException e) {
+        } catch (ExpiredJwtException e) {
             logger.warn("Expired JWT");
             response.sendError(401, "JWT expired");
             return;
@@ -90,7 +84,7 @@ public class JwtFilter extends OncePerRequestFilter {
         logger.debug("Getting Authorization Header");
         String token = request.getHeader(AUTH_HEADER);
 
-        if(token != null) {
+        if (token != null) {
             String result = token.replace("Bearer ", "").trim();
 
             logger.debug("Authorization Header: " + result);

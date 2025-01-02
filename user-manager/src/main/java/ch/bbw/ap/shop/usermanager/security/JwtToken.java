@@ -2,11 +2,8 @@ package ch.bbw.ap.shop.usermanager.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
 
 public class JwtToken implements Authentication {
 
@@ -15,12 +12,13 @@ public class JwtToken implements Authentication {
     private final Collection<GrantedAuthority> authorities;
     private boolean isAuthenticated;
 
-    public JwtToken(String credentials){
+    public JwtToken(String credentials) {
         this.username = null;
         this.credentials = credentials;
         this.authorities = null;
         setAuthenticated(false);
     }
+
     public JwtToken(String username, String credentials, Collection<GrantedAuthority> authorities) {
         this.username = username;
         this.credentials = credentials;

@@ -33,19 +33,17 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         String token = (String) authentication.getCredentials();
 
         try {
-                LOGGER.trace("Retrieved Username from Token");
-                String username = jwtUtils.getPrincipal(token);
-                LOGGER.debug(username);
+            LOGGER.trace("Retrieved Username from Token");
+            String username = jwtUtils.getPrincipal(token);
+            LOGGER.debug(username);
 
-                LOGGER.debug("Retrieve User from database");
-                User user = userService.getByUsername(username);
-                return new JwtToken(user.getUsername(), token, List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name())));
+            LOGGER.debug("Retrieve User from database");
+            User user = userService.getByUsername(username);
+            return new JwtToken(user.getUsername(), token, List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name())));
 
-        }
-        catch(NoSuchAlgorithmException | InvalidKeySpecException | IOException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException | IOException e) {
             LOGGER.error("JWT Validation failed: ", e);
-        }
-        catch(UsernameNotFoundException e) {
+        } catch (UsernameNotFoundException e) {
             LOGGER.error("User doesn't exist");
         }
 

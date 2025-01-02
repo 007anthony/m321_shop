@@ -30,10 +30,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUser(User user) {
 
-        if(this.getByUsername(user.getUsername()) != null) {
+        if (this.getByUsername(user.getUsername()) != null) {
             return null;
         }
-            userRepository.save(user);
+        userRepository.save(user);
 
         return user;
     }
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
                 throwable -> getByUsernameFallback(throwable)
         );
 
-        if(user.isEmpty()) {
+        if (user.isEmpty()) {
             throw new UsernameNotFoundException(username);
         }
 

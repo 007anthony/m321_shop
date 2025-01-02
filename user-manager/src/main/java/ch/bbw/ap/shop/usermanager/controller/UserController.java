@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
-import java.sql.SQLIntegrityConstraintViolationException;
-
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -32,7 +29,7 @@ public class UserController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if(response == null) {
+        if (response == null) {
             return ResponseEntity.status(409).build();
         }
 
