@@ -2,6 +2,7 @@ package ch.bbw.ap.shop.usermanager.service.impl;
 
 import ch.bbw.ap.shop.usermanager.model.Role;
 import ch.bbw.ap.shop.usermanager.model.User;
+import ch.bbw.ap.shop.usermanager.model.request.UserReset;
 import ch.bbw.ap.shop.usermanager.repository.UserRepository;
 import ch.bbw.ap.shop.usermanager.service.UserService;
 import org.slf4j.Logger;
@@ -9,8 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import java.util.InputMismatchException;
 import java.util.Optional;
 
 @Service
@@ -70,6 +73,23 @@ public class UserServiceImpl implements UserService {
             userRepository.delete(user.get());
             return true;
         }
+        return false;
+    }
+
+    @Override
+    public boolean resetPassword(Long id, UserReset reset) {
+        Optional<User> userOptional = this.getById(id);
+
+        if(userOptional.isPresent()) {
+            User user = userOptional.get();
+
+            if(BCrypt.checkpw(reset.getOldPassword(), user.getPassword())) {
+                user.setPassword(reset.getNewPassword());
+                userRepository.save(user);
+                return true;
+            }
+        }
+
         return false;
     }
 
