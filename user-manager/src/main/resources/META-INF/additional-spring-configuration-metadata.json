@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "user-manager.auth.jwt.private-key.algorithm",
+      "type": "java.lang.String",
+      "description": "Here you can set the algorithm which the private key supports."
+    },
+    {
+      "name": "user-manager.auth.jwt.private-key.location",
+      "type": "java.nio.file.Path",
+      "description": "Here you can set the path where the private key can be found in the classpath."
+    },
+    {
+      "name": "user-manager.auth.jwt.public-key.algorithm",
+      "type": "java.lang.String",
+      "description": "Here you can set the algorithm which the public key supports."
+    },
+    {
+      "name": "user-manager.auth.jwt.public-key.location",
+      "type": "java.nio.file.Path",
+      "description": "Here you can set the path where the public key can be found in the classpath."
+    }
+  ] }

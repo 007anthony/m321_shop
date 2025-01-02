@@ -13,6 +13,7 @@ import java.security.cert.Certificate;
 public class JwtProperties {
 
     private KeyModel privateKey;
+    private KeyModel publicKey;
     private long expirationDate = 3_600_000;
 
 
@@ -22,6 +23,14 @@ public class JwtProperties {
 
     public void setPrivateKey(KeyModel privateKey) {
         this.privateKey = privateKey;
+    }
+
+    public KeyModel getPublicKey() {
+        return publicKey;
+    }
+
+    public void setPublicKey(KeyModel publicKey) {
+        this.publicKey = publicKey;
     }
 
     public long getExpirationDate() {

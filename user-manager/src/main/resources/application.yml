@@ -1,3 +1,4 @@
+
 spring:
   application:
     name: "user-manager"
@@ -16,3 +17,9 @@ user-manager:
       private-key:
         algorithm: rsa
         location: keys/private_key.pem
+      public-key:
+        algorithm: rsa
+        location: keys/public_key.pem
+logging:
+  level:
+    web: debug
