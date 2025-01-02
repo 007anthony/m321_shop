@@ -1,6 +1,7 @@
 package ch.bbw.ap.shop.usermanager.controller;
 
 import ch.bbw.ap.shop.usermanager.model.User;
+import ch.bbw.ap.shop.usermanager.model.request.UserEdit;
 import ch.bbw.ap.shop.usermanager.service.UserService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,17 @@ public class AdminController {
 
 
         return ResponseEntity.ok(user.get());
+    }
+
+    @PutMapping("/users/{userId}")
+    public ResponseEntity<User> editUser(@PathVariable Long userId, @RequestBody UserEdit userEdit) {
+        Optional<User> user =  userService.editUser(userId, userEdit);
+
+        if(user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/users/{userId}")
