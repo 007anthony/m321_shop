@@ -1,6 +1,7 @@
 package ch.bbw.ap.shop.usermanager.controller;
 
 import ch.bbw.ap.shop.usermanager.model.User;
+import ch.bbw.ap.shop.usermanager.model.request.PasswortReset;
 import ch.bbw.ap.shop.usermanager.model.request.UserEdit;
 import ch.bbw.ap.shop.usermanager.service.UserService;
 import jakarta.validation.Valid;
@@ -66,7 +67,7 @@ public class AdminController {
     }
 
     @PostMapping("/users/{userId}/reset")
-    public ResponseEntity<String> resetPassword(@PathVariable Long userId, @Valid @RequestBody NewPassword password) {
+    public ResponseEntity<String> resetPassword(@PathVariable Long userId, @Valid @RequestBody PasswortReset password) {
         if(userService.resetPassword(userId, password.getNewPassword())) {
             return ResponseEntity.ok("Password was changed successfully");
         }

@@ -3,7 +3,6 @@ package ch.bbw.ap.shop.usermanager.service;
 import ch.bbw.ap.shop.usermanager.model.User;
 import ch.bbw.ap.shop.usermanager.model.request.UserCreate;
 import ch.bbw.ap.shop.usermanager.model.request.UserEdit;
-import ch.bbw.ap.shop.usermanager.model.request.UserReset;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -22,8 +21,6 @@ public interface UserService {
     Optional<User> editUser(Long id, UserEdit userEdit);
 
     boolean deleteUser(Long id);
-
-    boolean resetPassword(Long id, UserReset reset);
 
     boolean resetPassword(Long id, String newPassword);
 }

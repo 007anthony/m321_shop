@@ -2,20 +2,16 @@ package ch.bbw.ap.shop.usermanager.controller;
 
 import ch.bbw.ap.shop.usermanager.model.User;
 import ch.bbw.ap.shop.usermanager.model.request.LoginUser;
-import ch.bbw.ap.shop.usermanager.model.request.UserReset;
+import ch.bbw.ap.shop.usermanager.model.request.PasswortReset;
 import ch.bbw.ap.shop.usermanager.security.JwtUtils;
 import ch.bbw.ap.shop.usermanager.service.UserService;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -65,10 +61,10 @@ public class AuthController {
     }
 
     @PostMapping("/reset")
-    public ResponseEntity reset(@Valid @RequestBody UserReset request) {
+    public ResponseEntity reset(@Valid @RequestBody PasswortReset request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        boolean passwordChanged = userService.resetPassword((Long) auth.getPrincipal(), request);
+        boolean passwordChanged = userService.resetPassword((Long) auth.getPrincipal(), request.getNewPassword());
 
         if(!passwordChanged) {
             return ResponseEntity.status(400).body("Old password doesn't match");
