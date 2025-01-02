@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean deleteUser(Long id) {
         Optional<User> user = this.getById(id);
         if(user.isPresent()) {
             userRepository.delete(user.get());

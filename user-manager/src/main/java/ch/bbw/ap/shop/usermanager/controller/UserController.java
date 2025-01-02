@@ -53,7 +53,7 @@ public class UserController {
 
 
 
-        boolean response = userService.delete((Long) authentication.getPrincipal());
+        boolean response = userService.deleteUser((Long) authentication.getPrincipal());
 
         return response? ResponseEntity.ok().build(): ResponseEntity.notFound().build();
 
