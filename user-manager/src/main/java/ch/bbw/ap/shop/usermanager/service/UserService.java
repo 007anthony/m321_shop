@@ -1,6 +1,7 @@
 package ch.bbw.ap.shop.usermanager.service;
 
 import ch.bbw.ap.shop.usermanager.model.User;
+import ch.bbw.ap.shop.usermanager.model.request.UserReset;
 
 import java.util.Optional;
 
@@ -13,4 +14,6 @@ public interface UserService {
     Optional<User> getById(Long id);
 
     boolean delete(Long id);
+
+    boolean resetPassword(Long id, UserReset reset);
 }
