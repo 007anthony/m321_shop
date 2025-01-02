@@ -1,3 +1,4 @@
+
 spring:
   application:
     name: "user-manager"
@@ -9,3 +10,16 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+
+user-manager:
+  auth:
+    jwt:
+      private-key:
+        algorithm: rsa
+        location: keys/private_key.pem
+      public-key:
+        algorithm: rsa
+        location: keys/public_key.pem
+logging:
+  level:
+    web: debug
