@@ -6,11 +6,14 @@ import ch.bbw.ap.shop.usermanager.model.request.UserEdit;
 import ch.bbw.ap.shop.usermanager.model.request.UserReset;
 import jakarta.validation.Valid;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
 
     User createUser(@Valid UserCreate user);
+
+    List<User> getAll();
 
     Optional<User> getByUsername(String username);
 
