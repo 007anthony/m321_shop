@@ -4,6 +4,7 @@ import ch.bbw.ap.shop.usermanager.mapper.UserMapper;
 import ch.bbw.ap.shop.usermanager.model.User;
 import ch.bbw.ap.shop.usermanager.model.request.UserCreate;
 import ch.bbw.ap.shop.usermanager.service.UserService;
+import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class UserController {
     private UserMapper userMapper;
 
     @PostMapping
-    public ResponseEntity<User> signUp(@RequestBody UserCreate request) {
+    public ResponseEntity<User> signUp(@Valid @RequestBody UserCreate request) {
         User response = userService.createUser(userMapper.map(request));
 
         if (response == null) {

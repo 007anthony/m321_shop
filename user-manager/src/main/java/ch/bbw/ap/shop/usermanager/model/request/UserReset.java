@@ -1,8 +1,15 @@
 package ch.bbw.ap.shop.usermanager.model.request;
 
+import jakarta.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.Length;
+
 public class UserReset {
 
+    @NotBlank
     private String oldPassword;
+
+    @NotBlank
+    @Length(min = 12)
     private String newPassword;
 
     public String getOldPassword() {

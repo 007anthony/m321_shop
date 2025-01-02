@@ -5,6 +5,7 @@ import ch.bbw.ap.shop.usermanager.model.request.LoginUser;
 import ch.bbw.ap.shop.usermanager.model.request.UserReset;
 import ch.bbw.ap.shop.usermanager.security.JwtUtils;
 import ch.bbw.ap.shop.usermanager.service.UserService;
+import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginUser login) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+    public ResponseEntity<String> login(@Valid @RequestBody LoginUser login) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 
         Optional<User> userOptional = userService.getByUsername(login.getUsername());
 
@@ -64,7 +65,7 @@ public class AuthController {
     }
 
     @PostMapping("/reset")
-    public ResponseEntity reset(@RequestBody UserReset request) {
+    public ResponseEntity reset(@Valid @RequestBody UserReset request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         boolean passwordChanged = userService.resetPassword((Long) auth.getPrincipal(), request);
