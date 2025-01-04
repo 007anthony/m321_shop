@@ -6,7 +6,7 @@
         <groupId>ch.bbw.ap.shop</groupId>
         <artifactId>m321-shop-base</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>user-manager</artifactId>
     <version>0.0.1-SNAPSHOT</version>

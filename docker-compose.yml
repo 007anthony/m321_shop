@@ -17,6 +17,21 @@ services:
     secrets:
       - db_user
       - db_password
+  user-service:
+    build:
+      context: .
+      dockerfile: ./user-manager/Dockerfile
+
+    environment:
+      DB_HOST: user-db
+      DB_PORT: 3306
+      DB_USER_FILE: /run/secrets/db_user
+      DB_PASSWORD_FILE: /run/secrets/db_password
+      EUREKA_HOST: eureka
+
+    secrets:
+      - db_user
+      - db_password
 
 secrets:
   db_user:

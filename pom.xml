@@ -6,7 +6,6 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.4.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ch.bbw.ap.shop</groupId>
     <artifactId>m321-shop-base</artifactId>
@@ -14,19 +13,17 @@
     <name>m321-shop</name>
     <description>m321-shop</description>
     <packaging>pom</packaging>
-    <url/>
-    <licenses>
-        <license/>
-    </licenses>
+    <url>https://github.com/007anthony/m321_shop/wiki</url>
     <developers>
         <developer/>
     </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub 007anthony Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/007anthony/m321_shop</url>
+        </repository>
+    </distributionManagement>
     <properties>
         <java.version>21</java.version>
         <spring-cloud.version>2024.0.0</spring-cloud.version>
