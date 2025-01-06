@@ -32,6 +32,19 @@ services:
     secrets:
       - db_user
       - db_password
+  product-db:
+    image: mariadb
+    ports:
+      - 3307:3306
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: true
+      MARIADB_USER_FILE: /run/secrets/db_user
+      MARIADB_PASSWORD_FILE: /run/secrets/db_password
+      MARIADB_DATABASE: product
+
+    secrets:
+      - db_user
+      - db_password
 
 secrets:
   db_user:
