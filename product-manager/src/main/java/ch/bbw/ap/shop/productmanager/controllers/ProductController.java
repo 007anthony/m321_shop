@@ -20,7 +20,7 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public List<Product> getAll(@RequestParam(required = false) String q, @RequestParam(required = false) Category category) {
-        return productService.getAll(q, category);
+    public List<Product> getAll(@RequestParam(required = false) String q, @RequestParam(required = false) Long categoryId) {
+        return productService.getAll(q, categoryId);
     }
 }

@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ProductService {
 
-    public List<Product> getAll(String search, Category category);
+    public List<Product> getAll(String search, Long categoryId);
 }
