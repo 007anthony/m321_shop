@@ -1,0 +1,14 @@
+server:
+  port: ${PORT:8081}
+
+spring:
+  application:
+    name: product-manager
+  datasource:
+    url: "jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3307}/product"
+    username: "${DB_USER}"
+    password: "${DB_PASSWORD}"
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
