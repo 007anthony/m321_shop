@@ -2,14 +2,12 @@ package ch.bbw.ap.shop.productmanager.controllers;
 
 import ch.bbw.ap.shop.productmanager.models.Picture;
 import ch.bbw.ap.shop.productmanager.services.PictureService;
-import jakarta.ws.rs.Path;
-import org.apache.coyote.Response;
-import org.apache.http.HttpHeaders;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MimeType;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -19,23 +17,22 @@ import java.io.InputStream;
 @RequestMapping("/pictures")
 public class PictureController {
 
+    private final Logger LOGGER = LoggerFactory.getLogger(PictureController.class);
+
     @Autowired
     private PictureService pictureService;
 
-    @GetMapping(value = "/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public byte[] getPicture(@PathVariable Long id) throws IOException {
+    @Value("product-manager.images.path")
+    private String path = "/static/images";
 
-        Picture picture = pictureService.getById(id);
+    @GetMapping(value = "/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> getPicture(@PathVariable Long id) throws IOException {
+        byte[] picture = pictureService.getPicture(id);
 
         if(picture == null) {
-            return null;
+            return ResponseEntity.notFound().build();
         }
 
-        String filename = picture.getFilename();
-
-        InputStream in = getClass().getResourceAsStream("/static/images/" + filename);
-
-        return in.readAllBytes();
-
+        return ResponseEntity.ok(picture);
     }
 }

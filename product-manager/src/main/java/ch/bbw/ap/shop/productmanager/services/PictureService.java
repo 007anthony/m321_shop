@@ -2,7 +2,9 @@ package ch.bbw.ap.shop.productmanager.services;
 
 import ch.bbw.ap.shop.productmanager.models.Picture;
 
+import java.io.IOException;
+
 public interface PictureService {
 
-    Picture getById(Long id);
+    byte[] getPicture(Long id) throws IOException;
 }
