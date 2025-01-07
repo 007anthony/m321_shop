@@ -1,8 +1,9 @@
-package ch.bbw.ap.shop.productmanager.specifications;
+package ch.bbw.ap.shop.productmanager.repositories.specifications;
 
 import ch.bbw.ap.shop.productmanager.models.Category;
 import ch.bbw.ap.shop.productmanager.models.Product;
 import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Path;
 import org.springframework.data.jpa.domain.Specification;
 
 public class ProductSpecification {
@@ -13,8 +14,8 @@ public class ProductSpecification {
 
     public static Specification<Product> hasCategory(Long categoryId) {
         return (root, query, builder) -> {
-            Join<Category, Product> categoryProducts = root.join("categories");
-            return builder.equal(categoryProducts.get("id"), categoryId);
+            Path<Category> categoryPath = root.get("category");
+            return builder.equal(categoryPath.get("id"), categoryId);
         };
     }
 }
