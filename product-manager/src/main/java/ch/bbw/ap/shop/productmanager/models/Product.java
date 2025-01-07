@@ -15,8 +15,8 @@ public class Product {
     private String product;
     private double price;
 
-    @ManyToMany
-    private Set<Category> categories;
+    @ManyToOne
+    private Category category;
 
     @OneToMany
     @JoinColumn(name = "product_id")
@@ -46,12 +46,12 @@ public class Product {
         this.price = price;
     }
 
-    public Set<Category> getCategories() {
-        return categories;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategories(Set<Category> categories) {
-        this.categories = categories;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Set<Picture> getPictures() {
