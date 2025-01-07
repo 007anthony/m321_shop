@@ -19,7 +19,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(registry ->
                         registry
-                                .requestMatchers(HttpMethod.GET, "/products/**", "/categories").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/products/**", "/categories", "/pictures/**").permitAll()
                                 .requestMatchers("/error").permitAll()
                                 .anyRequest().authenticated()
                 )
