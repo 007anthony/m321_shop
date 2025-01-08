@@ -12,3 +12,13 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+
+eureka:
+  instance:
+    hostname: ${EUREKA_HOST:localhost}
+    instance-id: ${spring.application.name}:${random.int}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      default-zone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka
