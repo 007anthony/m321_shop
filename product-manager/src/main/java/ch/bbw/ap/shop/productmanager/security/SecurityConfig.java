@@ -20,6 +20,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(registry ->
                         registry
                                 .requestMatchers(HttpMethod.GET, "/products/**", "/categories", "/pictures/**").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/admin/products/**").authenticated()
                                 .requestMatchers("/error").permitAll()
                                 .anyRequest().authenticated()
                 )
