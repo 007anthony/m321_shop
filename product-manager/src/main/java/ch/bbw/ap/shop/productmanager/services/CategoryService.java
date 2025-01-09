@@ -14,4 +14,6 @@ public interface CategoryService {
     Category createCategory(CategoryRequest categoryRequest);
 
     Category editCategory(Long id, CategoryRequest categoryRequest);
+
+    boolean deleteCategory(Long id);
 }
