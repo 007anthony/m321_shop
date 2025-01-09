@@ -39,10 +39,8 @@ public class SecurityConfig {
                 .addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(registry ->
                         registry
-                                .requestMatchers(HttpMethod.GET, "/products/**", "/categories", "/pictures/**").permitAll()
-                                .requestMatchers("/error").permitAll()
-                                .requestMatchers("/admin/**").hasRole("ADMIN")
-                                .anyRequest().authenticated()
+                                .requestMatchers(HttpMethod.GET).permitAll()
+                                .anyRequest().hasRole("ADMIN")
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
