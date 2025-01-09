@@ -3,6 +3,7 @@ package ch.bbw.ap.shop.productmanager.controllers;
 import ch.bbw.ap.shop.productmanager.models.Picture;
 import ch.bbw.ap.shop.productmanager.models.PictureRequest;
 import ch.bbw.ap.shop.productmanager.services.PictureService;
+import jakarta.ws.rs.PathParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,16 @@ public class PictureController {
     @PostMapping
     public Picture createPicture(@RequestBody PictureRequest pictureRequest) {
         return pictureService.createPicture(pictureRequest);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deletePicture(@PathVariable Long id) {
+        boolean deleted = pictureService.deletePicture(id);
+
+        if(!deleted) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
     }
 }

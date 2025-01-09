@@ -5,9 +5,11 @@ import ch.bbw.ap.shop.productmanager.mapper.PictureMapper;
 import ch.bbw.ap.shop.productmanager.models.Picture;
 import ch.bbw.ap.shop.productmanager.models.PictureRequest;
 import ch.bbw.ap.shop.productmanager.repositories.PictureRepository;
+import ch.bbw.ap.shop.productmanager.services.KafkaService;
 import ch.bbw.ap.shop.productmanager.services.PictureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -23,6 +25,12 @@ public class PictureServiceImpl implements PictureService {
 
     @Autowired
     private PictureMapper pictureMapper;
+
+    @Autowired
+    private KafkaService kafkaService;
+
+    @Autowired
+    private KafkaTemplate<String, Picture> kafkaTemplate;
 
 
     @Value("${product-manager.pictures.path: /static/images}")
@@ -47,6 +55,16 @@ public class PictureServiceImpl implements PictureService {
         return in.readAllBytes();
     }
 
+    private Picture getById(Long id) {
+        Optional<Picture> picture = pictureRepository.findById(id);
+
+        if(picture.isEmpty()) {
+            return null;
+        }
+
+        return picture.get();
+    }
+
     @Override
     public Picture createPicture(PictureRequest pictureRequest) {
         Picture picture = pictureMapper.map(pictureRequest);
@@ -55,4 +73,21 @@ public class PictureServiceImpl implements PictureService {
 
         return picture;
     }
+
+    @Override
+    public boolean deletePicture(Long id) {
+        Picture picture = this.getById(id);
+
+        if(picture == null) {
+            return false;
+        }
+
+        pictureRepository.delete(picture);
+
+        kafkaTemplate.send("pictureTopic", picture);
+
+        return true;
+    }
+
+
 }

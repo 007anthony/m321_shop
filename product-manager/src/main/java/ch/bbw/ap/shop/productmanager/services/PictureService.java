@@ -10,4 +10,6 @@ public interface PictureService {
     byte[] getPicture(Long id) throws IOException;
 
     Picture createPicture(PictureRequest pictureRequest);
+
+    boolean deletePicture(Long id);
 }
