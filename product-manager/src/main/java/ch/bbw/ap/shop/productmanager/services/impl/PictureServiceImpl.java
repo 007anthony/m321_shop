@@ -47,6 +47,16 @@ public class PictureServiceImpl implements PictureService {
         return in.readAllBytes();
     }
 
+    private Picture getById(Long id) {
+        Optional<Picture> picture = pictureRepository.findById(id);
+
+        if(picture.isEmpty()) {
+            return null;
+        }
+
+        return picture.get();
+    }
+
     @Override
     public Picture createPicture(PictureRequest pictureRequest) {
         Picture picture = pictureMapper.map(pictureRequest);
@@ -54,5 +64,18 @@ public class PictureServiceImpl implements PictureService {
         pictureRepository.save(picture);
 
         return picture;
+    }
+
+    @Override
+    public boolean deletePicture(Long id) {
+        Picture picture = this.getById(id);
+
+        if(picture == null) {
+            return false;
+        }
+
+        pictureRepository.delete(picture);
+
+        return true;
     }
 }
