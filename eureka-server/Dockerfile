@@ -2,9 +2,10 @@ FROM maven:3.9.9-amazoncorretto-21-alpine
 
 WORKDIR /app
 
-COPY ./user-manager /app/user-manager
+COPY ./src ./src
+COPY pom.xml pom.xml
 
-WORKDIR /app/user-manager
+WORKDIR /app
 
 RUN mvn clean install -DskipTests
 
