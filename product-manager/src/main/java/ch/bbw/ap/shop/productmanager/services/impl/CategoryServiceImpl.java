@@ -46,4 +46,19 @@ public class CategoryServiceImpl implements CategoryService {
 
         return category;
     }
+
+    @Override
+    public Category editCategory(Long id, CategoryRequest categoryRequest) {
+        Category category = this.getById(id);
+
+        if(category == null) {
+            return null;
+        }
+
+        category = categoryMapper.merge(categoryRequest, category);
+
+        categoryRepository.save(category);
+
+        return category;
+    }
 }
