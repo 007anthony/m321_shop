@@ -1,10 +1,13 @@
 package ch.bbw.ap.shop.productmanager.models;
 
+import java.util.Set;
+
 public class ProductRequest {
     private String product;
     private double price;
     private Long categoryId;
-    private Long pictureId;
+
+    private Set<Long> pictureIds;
 
     public String getProduct() {
         return product;
@@ -30,11 +33,13 @@ public class ProductRequest {
         this.categoryId = categoryId;
     }
 
-    public Long getPictureId() {
-        return pictureId;
+    public Set<Long> getPictureIds() {
+        return pictureIds;
     }
 
-    public void setPictureId(Long pictureId) {
-        this.pictureId = pictureId;
+    public void setPictureId(Set<Long> pictureIds) {
+        this.pictureIds = pictureIds;
     }
+
+
 }

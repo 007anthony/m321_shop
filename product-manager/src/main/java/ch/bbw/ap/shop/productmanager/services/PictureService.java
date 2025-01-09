@@ -9,6 +9,8 @@ public interface PictureService {
 
     byte[] getPicture(Long id) throws IOException;
 
+    Picture getById(Long id);
+
     Picture createPicture(PictureRequest pictureRequest);
 
     boolean deletePicture(Long id);
