@@ -1,6 +1,7 @@
 package ch.bbw.ap.shop.productmanager.controllers;
 
 import ch.bbw.ap.shop.productmanager.models.Picture;
+import ch.bbw.ap.shop.productmanager.models.PictureRequest;
 import ch.bbw.ap.shop.productmanager.services.PictureService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,5 +35,10 @@ public class PictureController {
         }
 
         return ResponseEntity.ok(picture);
+    }
+
+    @PostMapping
+    public Picture createPicture(@RequestBody PictureRequest pictureRequest) {
+        return pictureService.createPicture(pictureRequest);
     }
 }
