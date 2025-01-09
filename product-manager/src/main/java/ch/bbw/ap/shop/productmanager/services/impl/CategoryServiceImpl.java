@@ -1,6 +1,8 @@
 package ch.bbw.ap.shop.productmanager.services.impl;
 
+import ch.bbw.ap.shop.productmanager.mapper.CategoryMapper;
 import ch.bbw.ap.shop.productmanager.models.Category;
+import ch.bbw.ap.shop.productmanager.models.CategoryRequest;
 import ch.bbw.ap.shop.productmanager.repositories.CategoryRepository;
 import ch.bbw.ap.shop.productmanager.services.CategoryService;
 import com.netflix.discovery.converters.Auto;
@@ -15,6 +17,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private CategoryMapper categoryMapper;
 
 
     @Override
@@ -31,5 +36,14 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         return category.get();
+    }
+
+    @Override
+    public Category createCategory(CategoryRequest categoryRequest) {
+        Category category = categoryMapper.map(categoryRequest);
+
+        categoryRepository.save(category);
+
+        return category;
     }
 }
