@@ -5,7 +5,6 @@ import ch.bbw.ap.shop.productmanager.mapper.PictureMapper;
 import ch.bbw.ap.shop.productmanager.models.Picture;
 import ch.bbw.ap.shop.productmanager.models.PictureRequest;
 import ch.bbw.ap.shop.productmanager.repositories.PictureRepository;
-import ch.bbw.ap.shop.productmanager.services.KafkaService;
 import ch.bbw.ap.shop.productmanager.services.PictureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,8 +25,6 @@ public class PictureServiceImpl implements PictureService {
     @Autowired
     private PictureMapper pictureMapper;
 
-    @Autowired
-    private KafkaService kafkaService;
 
     @Autowired
     private KafkaTemplate<String, Picture> kafkaTemplate;
@@ -55,7 +52,8 @@ public class PictureServiceImpl implements PictureService {
         return in.readAllBytes();
     }
 
-    private Picture getById(Long id) {
+    @Override
+    public Picture getById(Long id) {
         Optional<Picture> picture = pictureRepository.findById(id);
 
         if(picture.isEmpty()) {

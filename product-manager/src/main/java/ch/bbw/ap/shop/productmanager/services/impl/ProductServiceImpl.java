@@ -1,10 +1,12 @@
 package ch.bbw.ap.shop.productmanager.services.impl;
 
 import ch.bbw.ap.shop.productmanager.mapper.ProductMapper;
+import ch.bbw.ap.shop.productmanager.models.Picture;
 import ch.bbw.ap.shop.productmanager.models.Product;
 import ch.bbw.ap.shop.productmanager.models.ProductRequest;
 import ch.bbw.ap.shop.productmanager.repositories.ProductRepository;
 import ch.bbw.ap.shop.productmanager.services.CategoryService;
+import ch.bbw.ap.shop.productmanager.services.PictureService;
 import ch.bbw.ap.shop.productmanager.services.ProductService;
 import ch.bbw.ap.shop.productmanager.repositories.specifications.ProductSpecification;
 import io.micrometer.common.util.StringUtils;
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -26,6 +30,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private PictureService pictureService;
 
 
     @Override
@@ -52,6 +59,11 @@ public class ProductServiceImpl implements ProductService {
         Product p = productMapper.map(product);
 
         p.setCategory(categoryService.getById(product.getCategoryId()));
+
+        Set<Picture> pictures = product.getPictureIds().stream()
+                .map(pictureId -> pictureService.getById(pictureId))
+                .collect(Collectors.toSet());
+        p.setPictures(pictures);
         productRepository.save(p);
         return p;
     }
