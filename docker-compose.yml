@@ -1,7 +1,7 @@
 version: 'v3'
 services:
   eureka:
-    image: springcloud/eureka
+    build: ./eureka-server
     ports:
       - 8761:8761
   user-db:

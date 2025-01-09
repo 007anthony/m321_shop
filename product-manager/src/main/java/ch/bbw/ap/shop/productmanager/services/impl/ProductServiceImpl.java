@@ -1,7 +1,10 @@
 package ch.bbw.ap.shop.productmanager.services.impl;
 
+import ch.bbw.ap.shop.productmanager.mapper.ProductMapper;
 import ch.bbw.ap.shop.productmanager.models.Product;
+import ch.bbw.ap.shop.productmanager.models.ProductRequest;
 import ch.bbw.ap.shop.productmanager.repositories.ProductRepository;
+import ch.bbw.ap.shop.productmanager.services.CategoryService;
 import ch.bbw.ap.shop.productmanager.services.ProductService;
 import ch.bbw.ap.shop.productmanager.repositories.specifications.ProductSpecification;
 import io.micrometer.common.util.StringUtils;
@@ -17,6 +20,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private ProductMapper productMapper;
+
+    @Autowired
+    private CategoryService categoryService;
 
 
     @Override
@@ -35,5 +44,15 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return product.get();
+    }
+
+    @Override
+    public Product createProduct(ProductRequest product) {
+
+        Product p = productMapper.map(product);
+
+        p.setCategory(categoryService.getById(product.getCategoryId()));
+        productRepository.save(p);
+        return p;
     }
 }
