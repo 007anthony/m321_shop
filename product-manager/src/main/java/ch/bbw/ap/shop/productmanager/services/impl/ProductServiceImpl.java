@@ -55,4 +55,28 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(p);
         return p;
     }
+
+    @Override
+    public Product editProduct(Long id, ProductRequest product) {
+
+        Product p = this.getById(id);
+
+        if(p == null) {
+            return null;
+        }
+
+        p = productMapper.merge(product, p);
+
+        p.setId(id);
+
+        if(product.getCategoryId() != null) {
+            p.setCategory(categoryService.getById(product.getCategoryId()));
+        }
+
+        productRepository.save(p);
+
+        return p;
+    }
+
+
 }
