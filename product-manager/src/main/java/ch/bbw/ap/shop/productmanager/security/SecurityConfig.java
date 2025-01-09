@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(registry ->
                         registry
+                                .requestMatchers("/error").permitAll()
                                 .requestMatchers(HttpMethod.GET).permitAll()
                                 .anyRequest().hasRole("ADMIN")
                 )

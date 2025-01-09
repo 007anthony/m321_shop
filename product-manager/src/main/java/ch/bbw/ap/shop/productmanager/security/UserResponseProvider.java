@@ -26,7 +26,7 @@ public class UserResponseProvider implements AuthenticationProvider {
         LOGGER.debug("Get User from User Manager");
         UserResponse user = userClient.getMe("Bearer " + jwt);
 
-    LOGGER.info("Authenticating as %s", user.getUsername());
+    LOGGER.info("Authenticating as " + user.getUsername());
 
         return new UserToken(jwt, user);
     }
