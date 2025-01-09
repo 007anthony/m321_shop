@@ -1,7 +1,9 @@
 package ch.bbw.ap.shop.productmanager.services.impl;
 
 import ch.bbw.ap.shop.productmanager.controllers.PictureController;
+import ch.bbw.ap.shop.productmanager.mapper.PictureMapper;
 import ch.bbw.ap.shop.productmanager.models.Picture;
+import ch.bbw.ap.shop.productmanager.models.PictureRequest;
 import ch.bbw.ap.shop.productmanager.repositories.PictureRepository;
 import ch.bbw.ap.shop.productmanager.services.PictureService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class PictureServiceImpl implements PictureService {
 
     @Autowired
     private PictureRepository pictureRepository;
+
+    @Autowired
+    private PictureMapper pictureMapper;
 
 
     @Value("${product-manager.pictures.path: /static/images}")
@@ -40,5 +45,14 @@ public class PictureServiceImpl implements PictureService {
         }
 
         return in.readAllBytes();
+    }
+
+    @Override
+    public Picture createPicture(PictureRequest pictureRequest) {
+        Picture picture = pictureMapper.map(pictureRequest);
+
+        pictureRepository.save(picture);
+
+        return picture;
     }
 }
