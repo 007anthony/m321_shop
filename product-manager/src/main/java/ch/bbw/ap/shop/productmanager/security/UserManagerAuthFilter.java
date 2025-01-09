@@ -30,7 +30,14 @@ public class UserManagerAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         LOGGER.debug("Retrieve Authorization Token");
-        String jwt = request.getHeader("Authorization").replace("Bearer ", "").trim();
+        String header = request.getHeader("Authorization");
+
+        if(header == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        String jwt = header.replace("Bearer ", "").trim();
 
         Authentication auth = authManager.authenticate(new UserToken(jwt));
 

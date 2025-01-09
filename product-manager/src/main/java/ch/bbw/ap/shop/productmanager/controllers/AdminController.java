@@ -34,4 +34,15 @@ public class AdminController {
         return ResponseEntity.ok(product);
     }
 
+    @DeleteMapping("/products/{id}")
+    public ResponseEntity deleteProduct(@PathVariable Long id) {
+        boolean deleted = productService.deleteProduct(id);
+
+        if(!deleted) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
+    }
+
 }
