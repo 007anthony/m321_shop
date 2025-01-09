@@ -45,6 +45,18 @@ services:
     secrets:
       - db_user
       - db_password
+  cart-db:
+    image: mariadb
+    ports:
+      - 3308:3306
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: true
+      MARIADB_USER_FILE: /run/secrets/db_user
+      MARIADB_PASSWORD_FILE: /run/secrets/db_password
+      MARIADB_DATABASE: cart
+    secrets:
+      - db_user
+      - db_password
   kafka:
     image: bitnami/kafka:latest
     ports:
