@@ -13,4 +13,6 @@ public interface ProductService {
 
     Product createProduct(ProductRequest product);
     Product editProduct(Long id, ProductRequest product);
+
+    boolean deleteProduct(Long id);
 }

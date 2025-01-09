@@ -78,5 +78,17 @@ public class ProductServiceImpl implements ProductService {
         return p;
     }
 
+    @Override
+    public boolean deleteProduct(Long id) {
+        Product product = this.getById(id);
+
+        if(product == null) {
+            return false;
+        }
+        productRepository.delete(product);
+
+        return true;
+    }
+
 
 }
