@@ -3,7 +3,7 @@ package ch.bbw.ap.shop.shoppingcart;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = "ch.bbw.ap.shop")
+@SpringBootApplication
 public class ShoppingCartApplication {
 
     public static void main(String[] args) {
