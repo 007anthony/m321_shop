@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -49,5 +50,18 @@ public class ProductServiceImpl implements ProductService {
         cartItemRepository.save(cartItem);
 
         return productResponse;
+    }
+
+    @Override
+    public boolean removeProduct(Long id) {
+        Optional<CartItem> cartItem = cartItemRepository.getCartItemByProductId(id);
+
+        if(cartItem.isEmpty()) {
+            return false;
+        }
+
+        cartItemRepository.delete(cartItem.get());
+
+        return true;
     }
 }

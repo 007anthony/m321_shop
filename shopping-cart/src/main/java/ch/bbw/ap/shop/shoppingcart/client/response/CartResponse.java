@@ -1,5 +1,6 @@
 package ch.bbw.ap.shop.shoppingcart.client.response;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -9,7 +10,7 @@ public class CartResponse {
     private UserResponse user;
     private boolean active;
 
-    private List<ProductResponse> products;
+    private List<ProductResponse> products = new ArrayList<>();
 
     public Long getId() {
         return id;
