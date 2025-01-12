@@ -1,6 +1,6 @@
 package ch.bbw.ap.shop.usermanager;
 
-import ch.bbw.ap.shop.usermanager.model.Role;
+import ch.bbw.ap.shop.m321shopcore.security.Role;
 import ch.bbw.ap.shop.usermanager.model.User;
 import ch.bbw.ap.shop.usermanager.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -8,7 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "ch.bbw.ap.shop")
 public class UserManagerApplication {
 
     public static void main(String[] args) {

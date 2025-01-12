@@ -1,14 +1,17 @@
-package ch.bbw.ap.shop.usermanager.security;
+package ch.bbw.ap.shop.m321shopcore.security.jwt;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
+
 public class KeyModel {
 
     private String algorithm;
-    private Path location;
+    private String location;
 
     public String getAlgorithm() {
         return algorithm;
@@ -19,10 +22,10 @@ public class KeyModel {
     }
 
     public Path getLocation() {
-        return location;
+        return Paths.get(location);
     }
 
-    public void setLocation(Path location) throws URISyntaxException {
-        this.location = Paths.get(Objects.requireNonNull(KeyModel.class.getClassLoader().getResource(location.toString())).toURI());
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

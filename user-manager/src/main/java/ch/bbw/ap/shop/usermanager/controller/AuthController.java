@@ -1,9 +1,9 @@
 package ch.bbw.ap.shop.usermanager.controller;
 
+import ch.bbw.ap.shop.m321shopcore.security.jwt.JwtUtils;
 import ch.bbw.ap.shop.usermanager.model.User;
 import ch.bbw.ap.shop.usermanager.model.request.LoginUser;
 import ch.bbw.ap.shop.usermanager.model.request.PasswortReset;
-import ch.bbw.ap.shop.usermanager.security.JwtUtils;
 import ch.bbw.ap.shop.usermanager.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +43,7 @@ public class AuthController {
             return ResponseEntity.status(401).body("Username or password doesn't match");
         }
 
-        return ResponseEntity.ok(jwtUtils.generateToken(user.getUsername()));
+        return ResponseEntity.ok(jwtUtils.generateToken(user.getId(), user.getUsername(), user.getRole()));
 
     }
 

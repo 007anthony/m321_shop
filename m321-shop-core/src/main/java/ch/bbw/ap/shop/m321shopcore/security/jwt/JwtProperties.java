@@ -1,10 +1,10 @@
-package ch.bbw.ap.shop.usermanager.security;
+package ch.bbw.ap.shop.m321shopcore.security.jwt;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "user-manager.auth.jwt")
+@ConfigurationProperties(prefix = "shop.auth.jwt")
 public class JwtProperties {
 
     private KeyModel privateKey;

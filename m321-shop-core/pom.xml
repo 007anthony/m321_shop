@@ -9,14 +9,21 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ch.bbw.ap.shop</groupId>
-    <artifactId>product-manager</artifactId>
+    <artifactId>m321-shop-core</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>product-manager</name>
-    <description>product-manager</description>
+    <name>m321-shop-core</name>
+
     <dependencies>
         <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <scope>compile</scope>
+            <version>0.12.5</version>
         </dependency>
-    </dependencies>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <scope>runtime</scope>
+            <version>0.12.5</version>
+        </dependency>    </dependencies>
 </project>

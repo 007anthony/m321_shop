@@ -6,8 +6,12 @@
         <groupId>ch.bbw.ap.shop</groupId>
         <artifactId>m321-shop-base</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <artifactId>user-manager</artifactId>
+    <groupId>ch.bbw.ap.shop</groupId>
+    <artifactId>shopping-cart</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <name>shopping-cart</name>
+    <description>shopping-cart</description>
+
 </project>

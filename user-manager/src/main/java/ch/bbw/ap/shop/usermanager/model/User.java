@@ -1,5 +1,6 @@
 package ch.bbw.ap.shop.usermanager.model;
 
+import ch.bbw.ap.shop.m321shopcore.security.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.springframework.security.crypto.bcrypt.BCrypt;

@@ -1,7 +1,7 @@
-package ch.bbw.ap.shop.usermanager.security;
+package ch.bbw.ap.shop.m321shopcore.security.jwt;
 
-import ch.bbw.ap.shop.usermanager.model.User;
-import ch.bbw.ap.shop.usermanager.service.UserService;
+import ch.bbw.ap.shop.m321shopcore.security.Role;
+import io.jsonwebtoken.Claims;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,30 +26,25 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     private JwtUtils jwtUtils;
 
-    @Autowired
-    private UserService userService;
-
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String token = (String) authentication.getCredentials();
 
         try {
             LOGGER.trace("Retrieved Username from Token");
-            String username = jwtUtils.getPrincipal(token);
+            Claims claims = jwtUtils.getClaims(token);
+            String username = claims.getSubject();
+            String role = "ROLE_" + (String) claims.getOrDefault("role", Role.ANONYMOUS.toString());
             LOGGER.debug(username);
 
-            LOGGER.debug("Retrieve User from database");
-            Optional<User> userOptional = userService.getByUsername(username);
-            if(userOptional.isPresent()) {
-                User user = userOptional.get();
 
-                return new JwtToken(
-                        user.getId(),
-                        user.getUsername(),
-                        token,
-                        List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
-                );
-            }
+            return new JwtToken(
+                    Long.parseLong(claims.getId()),
+                    claims.getSubject(),
+                    token,
+                    List.of(new SimpleGrantedAuthority(role))
+            );
+
         } catch (NoSuchAlgorithmException | InvalidKeySpecException | IOException e) {
             LOGGER.error("JWT Validation failed: ", e);
         } catch (UsernameNotFoundException e) {

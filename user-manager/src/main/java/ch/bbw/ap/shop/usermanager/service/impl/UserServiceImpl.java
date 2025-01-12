@@ -1,7 +1,7 @@
 package ch.bbw.ap.shop.usermanager.service.impl;
 
+import ch.bbw.ap.shop.m321shopcore.security.Role;
 import ch.bbw.ap.shop.usermanager.mapper.UserMapper;
-import ch.bbw.ap.shop.usermanager.model.Role;
 import ch.bbw.ap.shop.usermanager.model.User;
 import ch.bbw.ap.shop.usermanager.model.request.UserCreate;
 import ch.bbw.ap.shop.usermanager.model.request.UserEdit;

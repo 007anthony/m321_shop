@@ -1,5 +1,6 @@
-package ch.bbw.ap.shop.usermanager.security;
+package ch.bbw.ap.shop.m321shopcore.security.jwt;
 
+import ch.bbw.ap.shop.m321shopcore.security.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -25,12 +26,14 @@ public class JwtUtils {
     private JwtProperties jwtProperties;
 
 
-    public String generateToken(String username) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+    public String generateToken(Long id, String username, Role role) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 
 
         return Jwts.builder()
                 .issuer("UserManager")
+                .id(id.toString())
                 .subject(username)
+                .claim("role", role.toString())
                 .expiration(new Date(System.currentTimeMillis() + jwtProperties.getExpirationDate()))
                 .signWith(getPrivateKey())
                 .compact();
@@ -43,14 +46,14 @@ public class JwtUtils {
                 .isSigned(token);
     }
 
-    public String getPrincipal(String token) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+    public Claims getClaims(String token) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
         Claims claims = Jwts.parser()
                 .verifyWith(getPublicKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
 
-        return claims.getSubject();
+        return claims;
     }
 
     private PrivateKey getPrivateKey() throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
