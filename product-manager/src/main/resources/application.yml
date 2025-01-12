@@ -22,3 +22,13 @@ eureka:
     fetch-registry: true
     service-url:
       default-zone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka
+
+shop:
+  auth:
+    jwt:
+      private-key:
+        algorithm: rsa
+        location: ${PRIVATE_KEY_FILE}
+      public-key:
+        algorithm: rsa
+        location: ${PUBLIC_KEY_FILE}
