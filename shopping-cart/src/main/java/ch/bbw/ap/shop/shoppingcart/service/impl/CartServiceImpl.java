@@ -2,6 +2,7 @@ package ch.bbw.ap.shop.shoppingcart.service.impl;
 
 import ch.bbw.ap.shop.shoppingcart.client.UserClient;
 import ch.bbw.ap.shop.shoppingcart.client.response.CartResponse;
+import ch.bbw.ap.shop.shoppingcart.client.response.ProductResponse;
 import ch.bbw.ap.shop.shoppingcart.client.response.UserResponse;
 import ch.bbw.ap.shop.shoppingcart.mapper.CartMapper;
 import ch.bbw.ap.shop.shoppingcart.model.Cart;
@@ -24,18 +25,6 @@ public class CartServiceImpl implements CartService {
     @Autowired
     private CartRepository cartRepository;
 
-    @Autowired
-    private CartItemRepository cartItemRepository;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private ProductService productService;
-
-    @Autowired
-    private CartMapper cartMapper;
-
     @Override
     public Cart getCurrentCart() {
         Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -50,25 +39,6 @@ public class CartServiceImpl implements CartService {
         Cart cart = cartOptional.get();
 
         return cart;
-    }
-
-    public CartItem addProduct(Long id) {
-
-        Cart cart = getCurrentCart();
-
-        if(cart == null) {
-            return null;
-        }
-
-        CartItem cartItem = new CartItem();
-
-        cartItem.setCart(cart);
-        cartItem.setProductId(id);
-
-        cartItemRepository.save(cartItem);
-
-
-        return cartItem;
     }
 
     @Override

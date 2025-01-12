@@ -1,5 +1,6 @@
 package ch.bbw.ap.shop.shoppingcart.mapper;
 
+import ch.bbw.ap.shop.shoppingcart.client.ProductClient;
 import ch.bbw.ap.shop.shoppingcart.client.response.ProductResponse;
 import ch.bbw.ap.shop.shoppingcart.model.CartItem;
 import ch.bbw.ap.shop.shoppingcart.service.ProductService;
@@ -13,12 +14,12 @@ import java.util.List;
 public abstract class ProductMapper {
 
     @Autowired
-    private ProductService productService;
+    private ProductClient productClient;
 
-    public abstract List<ProductResponse> mapProducts(List<CartItem> cartItems);
+    public abstract List<ProductResponse> map(List<CartItem> cartItems);
 
 
-    public ProductResponse mapProduct(CartItem cartItem) {
-        return productService.getProduct(cartItem.getProductId());
+    public ProductResponse map(CartItem cartItem) {
+        return productClient.getProduct(cartItem.getProductId());
     }
 }
