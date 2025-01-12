@@ -11,3 +11,13 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+
+shop:
+  auth:
+    jwt:
+      private-key:
+        algorithm: C:/Development/workspace/git/m321-shop/secrets/keys/private_key.pem
+        location: ${PRIVATE_KEY_FILE}
+      public-key:
+        algorithm: rsa
+        location: ${PUBLIC_KEY_FILE}
