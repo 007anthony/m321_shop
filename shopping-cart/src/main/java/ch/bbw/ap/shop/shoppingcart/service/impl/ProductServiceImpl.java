@@ -3,6 +3,10 @@ package ch.bbw.ap.shop.shoppingcart.service.impl;
 import ch.bbw.ap.shop.shoppingcart.client.ProductClient;
 import ch.bbw.ap.shop.shoppingcart.client.response.CartResponse;
 import ch.bbw.ap.shop.shoppingcart.client.response.ProductResponse;
+import ch.bbw.ap.shop.shoppingcart.mapper.ProductMapper;
+import ch.bbw.ap.shop.shoppingcart.model.Cart;
+import ch.bbw.ap.shop.shoppingcart.model.CartItem;
+import ch.bbw.ap.shop.shoppingcart.repository.CartItemRepository;
 import ch.bbw.ap.shop.shoppingcart.service.CartService;
 import ch.bbw.ap.shop.shoppingcart.service.ProductService;
 import com.netflix.discovery.converters.Auto;
@@ -15,10 +19,35 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
-    private ProductClient productClient;
+    private CartService cartService;
+
+    @Autowired
+    private ProductMapper productMapper;
+
+    @Autowired
+    private CartItemRepository cartItemRepository;
 
     @Override
-    public ProductResponse getProduct(Long id) {
-        return productClient.getProduct(id);
+    public ProductResponse addProduct(Long id) {
+        Cart cart = cartService.getCurrentCart();
+
+        if(cart == null) {
+            return null;
+        }
+
+        CartItem cartItem = new CartItem();
+
+        cartItem.setCart(cart);
+        cartItem.setProductId(id);
+
+        ProductResponse productResponse = productMapper.map(cartItem);
+
+        if(productResponse == null) {
+            return null;
+        }
+
+        cartItemRepository.save(cartItem);
+
+        return productResponse;
     }
 }
