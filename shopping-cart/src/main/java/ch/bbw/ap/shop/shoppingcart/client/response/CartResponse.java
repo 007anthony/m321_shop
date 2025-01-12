@@ -1,10 +1,15 @@
 package ch.bbw.ap.shop.shoppingcart.client.response;
 
+import java.util.List;
+import java.util.Set;
+
 public class CartResponse {
 
     private Long id;
     private UserResponse user;
     private boolean active;
+
+    private List<ProductResponse> products;
 
     public Long getId() {
         return id;
@@ -28,5 +33,13 @@ public class CartResponse {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public List<ProductResponse> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<ProductResponse> products) {
+        this.products = products;
     }
 }
