@@ -1,5 +1,6 @@
 package ch.bbw.ap.shop.shoppingcart.controller;
 
+import ch.bbw.ap.shop.shoppingcart.client.response.CartResponse;
 import ch.bbw.ap.shop.shoppingcart.model.Cart;
 import ch.bbw.ap.shop.shoppingcart.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ public class CartController {
     private CartService cartService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Cart> createCart() {
-        Cart cart = cartService.createCart();
+    public ResponseEntity<CartResponse> createCart() {
+        CartResponse cart = cartService.createCart();
 
         if(cart == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT.value()).build();

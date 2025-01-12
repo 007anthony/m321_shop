@@ -2,8 +2,10 @@ package ch.bbw.ap.shop.shoppingcart;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication(scanBasePackages = "ch.bbw.ap.shop")
+@EnableFeignClients
 public class ShoppingCartApplication {
 
     public static void main(String[] args) {
