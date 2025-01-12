@@ -7,4 +7,6 @@ import java.util.List;
 public interface ProductService {
 
     ProductResponse addProduct(Long id);
+
+    boolean removeProduct(Long id);
 }
