@@ -26,7 +26,7 @@ public abstract class CartMapper {
     }
 
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "products", source = "cartItems")
+    @Mapping(target = "products", source = "cartItems", defaultExpression = "java(new ArrayList())")
     @Mapping(target = "user", expression = "java(getCurrentUser())")
     public abstract CartResponse map(Cart cart);
 

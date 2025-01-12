@@ -5,6 +5,7 @@ import ch.bbw.ap.shop.shoppingcart.client.response.ProductResponse;
 import ch.bbw.ap.shop.shoppingcart.mapper.CartMapper;
 import ch.bbw.ap.shop.shoppingcart.model.Cart;
 import ch.bbw.ap.shop.shoppingcart.model.ProductRequest;
+import ch.bbw.ap.shop.shoppingcart.repository.CartRepository;
 import ch.bbw.ap.shop.shoppingcart.service.CartService;
 import ch.bbw.ap.shop.shoppingcart.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -49,6 +52,15 @@ public class CartController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(cart);
+    }
+
+    @DeleteMapping
+    public CartResponse clearCart() {
+        Cart cart = cartService.getCurrentCart();
+
+        productService.deleteCardItems(cart.getCartItems());
+        cart.setCartItems(new HashSet<>());
+        return cartMapper.map(cartService.getCurrentCart());
     }
 
     @PostMapping("/items")
