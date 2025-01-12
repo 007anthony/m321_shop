@@ -1,7 +1,5 @@
 package ch.bbw.ap.shop.shoppingcart.service.impl;
 
-import ch.bbw.ap.shop.shoppingcart.client.ProductClient;
-import ch.bbw.ap.shop.shoppingcart.client.response.CartResponse;
 import ch.bbw.ap.shop.shoppingcart.client.response.ProductResponse;
 import ch.bbw.ap.shop.shoppingcart.mapper.ProductMapper;
 import ch.bbw.ap.shop.shoppingcart.model.Cart;
@@ -9,11 +7,10 @@ import ch.bbw.ap.shop.shoppingcart.model.CartItem;
 import ch.bbw.ap.shop.shoppingcart.repository.CartItemRepository;
 import ch.bbw.ap.shop.shoppingcart.service.CartService;
 import ch.bbw.ap.shop.shoppingcart.service.ProductService;
-import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 
 @Service
@@ -63,5 +60,11 @@ public class ProductServiceImpl implements ProductService {
         cartItemRepository.delete(cartItem.get());
 
         return true;
+    }
+
+    @Override
+    public void deleteCardItems(Collection<CartItem> cartItems) {
+
+        cartItemRepository.deleteAllInBatch(cartItems);
     }
 }
