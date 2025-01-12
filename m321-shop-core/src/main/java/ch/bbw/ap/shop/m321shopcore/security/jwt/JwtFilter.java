@@ -1,4 +1,4 @@
-package ch.bbw.ap.shop.usermanager.security;
+package ch.bbw.ap.shop.m321shopcore.security.jwt;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;

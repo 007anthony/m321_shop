@@ -97,6 +97,13 @@
             <artifactId>mariadb-java-client</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- OWN DEPENDENCIES -->
+        <dependency>
+            <groupId>ch.bbw.ap.shop</groupId>
+            <artifactId>m321-shop-core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

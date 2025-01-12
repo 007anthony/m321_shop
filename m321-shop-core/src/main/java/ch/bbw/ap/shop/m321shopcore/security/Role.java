@@ -1,4 +1,4 @@
-package ch.bbw.ap.shop.usermanager.model;
+package ch.bbw.ap.shop.m321shopcore.security;
 
 public enum Role {
     ADMIN,
