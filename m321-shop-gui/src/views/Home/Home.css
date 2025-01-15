@@ -1,0 +1,4 @@
+.ProductCatalog {
+    display: flex;
+    gap: 1em;
+}
