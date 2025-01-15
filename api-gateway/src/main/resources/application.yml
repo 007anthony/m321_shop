@@ -1,0 +1,15 @@
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    fetch-registry: true
+    register-with-eureka: false
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
