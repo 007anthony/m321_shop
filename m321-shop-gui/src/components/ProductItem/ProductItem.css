@@ -1,0 +1,30 @@
+.ProductItem {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 300px;
+    color: black;
+    text-decoration: none;
+    border: 1px solid black;
+    padding: 20px;
+}
+
+.ProductItem .category {
+    font-size: 10pt;
+}
+
+.ProductItem .price {
+    font-size: 12pt;
+    font-weight: bold;
+    color: #e51212;
+}
+
+.ProductItem h2 {
+    font-size: 16pt;
+    margin: 10px 0 10px;
+}
+
+.ProductItem img {
+    height: 200px;
+    margin: 0px auto 30px;
+}
