@@ -11,13 +11,13 @@ export default function Home() {
             price: 12
         },
         {
-            id: 1,
+            id: 2,
             product: "React",
             category: "Category",
             price: 12
         },
         {
-            id: 1,
+            id: 3,
             product: "React",
             category: "Category",
             price: 12
@@ -25,7 +25,7 @@ export default function Home() {
     ]
     return (
         <div className="ProductCatalog">
-            {products.map(product => <ProductItem product={product}/>)}
+            {products.map(product => <ProductItem key={product.id} product={product}/>)}
         </div>
     )
 }

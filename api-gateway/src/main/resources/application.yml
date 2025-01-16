@@ -1,3 +1,4 @@
+debug: true
 eureka:
   instance:
     hostname: localhost
@@ -13,3 +14,23 @@ spring:
       discovery:
         locator:
           enabled: true
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origins: '*'
+            allowed-methods:
+              - POST
+              - GET
+              - OPTIONS
+            allowed-headers: '*'
+      routes:
+        - id: user-service
+          uri: lb://user-manager
+          predicates:
+            - Path=/auth/**
+            - Method=POST,GET
+        - id: preflight
+          uri: no://op
+          predicates:
+            - Path=/**
+            - Method=OPTIONS
