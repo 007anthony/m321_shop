@@ -15,13 +15,14 @@ function App() {
 
     useEffect(() => {
         setToken(sessionStorage.getItem("token"))
-    })
+    }, [])
 
     useEffect(() => {
         if(token) {
             sessionStorage.setItem("token", token);
             UserService.getUserDetails(sessionStorage.getItem("token"))
                 .then(user => setUser(user))
+                .catch(e => console.log(e))
         }
     }, [token]);
 

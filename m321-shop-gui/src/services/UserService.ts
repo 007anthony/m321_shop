@@ -18,12 +18,17 @@ export default class UserService {
     }
 
     static async getUserDetails(token: string): Promise<User> {
-        const response = await fetch("http://localhost:8080/auth/me", {
-            headers: {
-                'Authorization': token
-            }
-        });
+        try {
+            const response = await fetch("http://localhost:8080/auth/me", {
+                headers: {
+                    'Authorization': token
+                }
+            });
 
-        return response.json();
+            return response.json();
+        }
+        catch (e) {
+            throw e;
+        }
     }
 }
