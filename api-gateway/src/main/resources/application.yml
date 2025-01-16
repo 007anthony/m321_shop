@@ -27,7 +27,7 @@ spring:
         - id: user-service
           uri: lb://user-manager
           predicates:
-            - Path=/auth/**
+            - Path=/**
             - Method=POST,GET
         - id: preflight
           uri: no://op

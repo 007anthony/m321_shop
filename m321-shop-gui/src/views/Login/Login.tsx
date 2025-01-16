@@ -1,14 +1,19 @@
 import './Login.css';
 import {FormEvent, useState} from "react";
 import UserService from "../../services/UserService";
+import {Link, useNavigate} from "react-router";
+import {useSessionStorage} from "../../../hooks/SessionStoragehook";
 
 interface IProps {
     setToken: (token: string) => void
 }
 
-export default function Login({setToken}) {
+export default function Login() {
+
+    const [token, setToken] = useSessionStorage('token');
 
     const [error, setError] = useState<string>();
+    const navigate = useNavigate();
 
     function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -24,6 +29,8 @@ export default function Login({setToken}) {
                 setError("Username or password is incorrect");
                 }
             );
+
+        navigate("/");
     }
 
     return(
@@ -41,6 +48,7 @@ export default function Login({setToken}) {
                     <br/>
                     <input type="password" name="password"/>
                 </label>
+                <Link to="/signup">Signup</Link>
                 <input type="submit" value="Login"/>
             </form>
     );
