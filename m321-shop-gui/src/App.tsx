@@ -1,17 +1,20 @@
 import {useEffect, useState} from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import Home from './views/Home/Home'
-import {BrowserRouter, Route, Routes} from "react-router";
+import {BrowserRouter, RedirectFunction, Route, Routes} from "react-router";
 import Login from "./views/Login/Login";
+import Signup from "./views/Signup/Signup";
 import UserService from "./services/UserService";
 import User from "./models/User";
+import {useSessionStorage} from "../hooks/SessionStoragehook";
 
 function App() {
 
     const [user, setUser] = useState<User>();
-    const [token, setToken] = useState<string>();
+
+    const [token, setToken] = useSessionStorage('token');
+
+
 
     useEffect(() => {
         setToken(sessionStorage.getItem("token"))
@@ -19,17 +22,11 @@ function App() {
 
     useEffect(() => {
         if(token) {
-            sessionStorage.setItem("token", token);
-            UserService.getUserDetails(sessionStorage.getItem("token"))
+            UserService.getUserDetails(token)
                 .then(user => setUser(user))
                 .catch(e => console.log(e))
         }
     }, [token]);
-
-
-    if(!user) {
-        return <Login setToken={setToken}/>
-    }
 
 
   return (
@@ -37,6 +34,11 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />}/>
+              {!user? (<>
+                    <Route path="/signup" element={<Signup/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                  </>
+                  ): ''}
           </Routes>
         </BrowserRouter>
     </>
