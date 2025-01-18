@@ -1,31 +1,19 @@
 import './Home.css';
-import ProductItem from '../../components/ProductItem'
+import ProductItem from '../../components/ProductItem/ProductItem'
 import Product from "../../models/Product";
+import {useEffect, useState} from "react";
+import ProductService from "../../services/ProductService";
 
 export default function Home() {
-    const products: Product[] = [
-        {
-            id: 1,
-            product: "React",
-            category: "Category",
-            price: 12
-        },
-        {
-            id: 2,
-            product: "React",
-            category: "Category",
-            price: 12
-        },
-        {
-            id: 3,
-            product: "React",
-            category: "Category",
-            price: 12
-        }
-    ]
+    const [products, setProducts] = useState<Product[]>();
+
+    useEffect(() => {
+        ProductService.getProducts()
+            .then(products => setProducts(products));
+    }, [])
     return (
         <div className="ProductCatalog">
-            {products.map(product => <ProductItem key={product.id} product={product}/>)}
+            {products?.map(product => <ProductItem key={product.id} product={product}/>)}
         </div>
     )
 }

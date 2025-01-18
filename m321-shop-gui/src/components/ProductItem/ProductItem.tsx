@@ -10,10 +10,10 @@ interface IProps {
 export default function ProductItem({product}: IProps) {
     return (
         <Link to={`/product/${product.id}`} className="ProductItem">
-            <img src={react}/>
-            <span className="category">category</span>
-            <h2>Product 1</h2>
-            <span className="price">CHF 12.-</span>
+            <img src={`http://localhost:8080/pictures/${product.pictures[0].id}`}/>
+            <span className="category">{product.category.category}</span>
+            <h2>{product.product}</h2>
+            <span className="price">CHF {product.price}.-</span>
         </Link>
     )
 }

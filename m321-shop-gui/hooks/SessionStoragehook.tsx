@@ -5,18 +5,18 @@ export function useSessionStorage(key: string) {
 
     useEffect(() => {
         const value = sessionStorage.getItem(key);
-        setState(value);
+        if(value != "null") {
+            setState(value);
+        }
     }, []);
 
     const setEntry = (value: string) => {
-        setState(value);
-
+            setState(value);
         sessionStorage.setItem(key, value);
     }
 
     const removeEntry = () =>  {
         setState(undefined);
-
         sessionStorage.removeItem(key);
     }
 

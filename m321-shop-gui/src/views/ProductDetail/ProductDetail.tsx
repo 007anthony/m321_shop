@@ -1,0 +1,29 @@
+import './ProductDetail.css';
+import {useEffect, useState} from "react";
+import ProductService from "../../services/ProductService";
+import {useParams} from "react-router";
+import Product from "../../models/Product";
+
+export default function ProductDetail() {
+    const {id} = useParams();
+    const [product, setProduct] = useState<Product>();
+
+    useEffect(() => {
+        ProductService.getProduct(id as number)
+            .then(product => setProduct(product));
+    }, [])
+    return (
+        <div className="ProductDetails">
+            <div className="info-container">
+                <h1>{product?.product}</h1>
+                <p className="category">{product?.category.category}</p>
+                <p>CHF {product?.price}.-</p>
+                <button type="button">Add to shopping cart</button>
+            </div>
+            <div className="picture-container">
+                {product?.pictures.map(picture => <img key={picture.id} width={200} src={`http://localhost:8080/pictures/${picture.id}`}/>)}
+            </div>
+
+        </div>
+    );
+}

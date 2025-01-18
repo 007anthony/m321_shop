@@ -1,8 +1,12 @@
-input[type="button"],[type="submit"] {
-    cursor:pointer;
+input[type="button"],[type="submit"], button {
+    cursor: pointer;
     background-color: red;
     color: white;
     border: none;
     border-radius: 0.2em;
     padding: 0.5em;
+}
+
+main {
+    padding: 20px;
 }

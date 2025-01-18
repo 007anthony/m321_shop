@@ -27,8 +27,18 @@ spring:
         - id: user-service
           uri: lb://user-manager
           predicates:
-            - Path=/**
+            - Path=/auth/**
             - Method=POST,GET
+        - id: product-service
+          uri: lb://product-manager
+          predicates:
+            - Path=/products/**
+            - Method=GET
+        - id: picture-service
+          uri: lb://product-manager
+          predicates:
+            - Path=/pictures/**
+            - Method=GET
         - id: preflight
           uri: no://op
           predicates:
