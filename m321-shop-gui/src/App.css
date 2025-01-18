@@ -16,7 +16,8 @@ header {
     background: black;
     color: white;
     padding: 10px 15px;
-    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
 }
 
 header a {
@@ -27,6 +28,7 @@ header a {
 header .title {
     font-size: 20px;
     font-weight: bold;
+    flex: 1;
 
 }
 
