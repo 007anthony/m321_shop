@@ -4,6 +4,15 @@ import Product from "../models/Product";
 export default class CartService {
 
 
+    static async createCart(token: string) {
+        const response = await fetch("http://localhost:8080/cart", {
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + token,
+                'content-type': "application/json",
+            }
+        })
+    }
     static async getCart(token: string) {
         const response = await fetch("http://localhost:8080/cart", {
             method: "GET",
@@ -30,10 +39,6 @@ export default class CartService {
                 productId
             })
         });
-
-        if(response.ok) {
-
-        }
     }
 
     static async removeItem(token: string, productId: number) {

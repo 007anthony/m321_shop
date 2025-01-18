@@ -9,6 +9,7 @@ import User from "./models/User";
 import {useSessionStorage} from "../hooks/SessionStoragehook";
 import ProductDetail from "./views/ProductDetail/ProductDetail";
 import CartView from "./views/Cart/CartView";
+import CartService from "./services/CartService";
 
 function App() {
 
@@ -21,6 +22,9 @@ function App() {
             UserService.getUserDetails(token)
                 .then(user => setUser(user))
                 .catch(e => removeToken())
+
+            CartService.getCart(token)
+                .catch(e => CartService.createCart(token));
         }
     }, [token]);
 
