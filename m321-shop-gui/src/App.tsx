@@ -1,7 +1,8 @@
 import {useEffect, useState} from 'react'
 import './App.css'
+import cartImg from './assets/cart.svg';
 import Home from './views/Home/Home'
-import {BrowserRouter, RedirectFunction, Route, Routes} from "react-router";
+import {BrowserRouter, Link, Route, Routes} from "react-router";
 import Login from "./views/Login/Login";
 import Signup from "./views/Signup/Signup";
 import UserService from "./services/UserService";
@@ -10,12 +11,14 @@ import {useSessionStorage} from "../hooks/SessionStoragehook";
 import ProductDetail from "./views/ProductDetail/ProductDetail";
 import CartView from "./views/Cart/CartView";
 import CartService from "./services/CartService";
+import Cart from "./models/Cart";
 
 function App() {
 
     const [user, setUser] = useState<User>();
 
     const [token, setToken, removeToken] = useSessionStorage('token');
+    const [cart, setCart] = useState<Cart>();
 
     useEffect(() => {
         if(token) {
@@ -24,6 +27,7 @@ function App() {
                 .catch(e => removeToken())
 
             CartService.getCart(token)
+                .then(cart => setCart(cart))
                 .catch(e => CartService.createCart(token));
         }
     }, [token]);
@@ -31,6 +35,13 @@ function App() {
 
   return (
     <>
+        <header>
+            <a className="title" href="/">M321 Shop</a>
+            {token?<a href="/cart" className="cart">
+                <img width={30} src={cartImg} />
+                <div className="cart-number">{cart?.products.length}</div>
+            </a>: <a href="/login">Sign in</a>}
+        </header>
         <main>
             <BrowserRouter>
               <Routes>
