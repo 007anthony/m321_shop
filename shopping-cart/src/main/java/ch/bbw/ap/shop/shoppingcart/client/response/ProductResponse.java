@@ -47,6 +47,7 @@ public class ProductResponse {
     }
     private Long id;
     private String product;
+    private double price;
     private CategoryResponse category;
     private Set<PictureResponse> pictures;
 
@@ -64,6 +65,14 @@ public class ProductResponse {
 
     public void setProduct(String product) {
         this.product = product;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public CategoryResponse getCategory() {

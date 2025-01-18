@@ -21,6 +21,7 @@ spring:
             allowed-methods:
               - POST
               - GET
+              - DELETE
               - OPTIONS
             allowed-headers: '*'
       routes:
@@ -39,6 +40,11 @@ spring:
           predicates:
             - Path=/pictures/**
             - Method=GET
+        - id: cart-service
+          uri: lb://shopping-cart
+          predicates:
+            - Path=/cart/**
+            - Method=GET,POST,DELETE
         - id: preflight
           uri: no://op
           predicates:

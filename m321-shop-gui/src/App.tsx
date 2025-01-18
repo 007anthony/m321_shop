@@ -8,6 +8,8 @@ import UserService from "./services/UserService";
 import User from "./models/User";
 import {useSessionStorage} from "../hooks/SessionStoragehook";
 import ProductDetail from "./views/ProductDetail/ProductDetail";
+import CartView from "./views/Cart/CartView";
+import CartService from "./services/CartService";
 
 function App() {
 
@@ -20,6 +22,9 @@ function App() {
             UserService.getUserDetails(token)
                 .then(user => setUser(user))
                 .catch(e => removeToken())
+
+            CartService.getCart(token)
+                .catch(e => CartService.createCart(token));
         }
     }, [token]);
 
@@ -31,11 +36,14 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />}/>
                 <Route path="/product/:id" element={<ProductDetail/>}/>
+                  <Route path="/cart" element={<CartView/>}/>
                   {!user? (<>
                         <Route path="/signup" element={<Signup/>}/>
                         <Route path="/login" element={<Login/>}/>
                       </>
-                      ): ''}
+                      ):
+                      ''
+                  }
               </Routes>
             </BrowserRouter>
         </main>
