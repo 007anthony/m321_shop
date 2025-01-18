@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useContext, useEffect, useState} from 'react'
 import './App.css'
 import cartImg from './assets/cart.svg';
 import Home from './views/Home/Home'
@@ -7,11 +7,13 @@ import Login from "./views/Login/Login";
 import Signup from "./views/Signup/Signup";
 import UserService from "./services/UserService";
 import User from "./models/User";
-import {useSessionStorage} from "../hooks/SessionStoragehook";
+import {useSessionStorage} from "./hooks/SessionStoragehook";
 import ProductDetail from "./views/ProductDetail/ProductDetail";
 import CartView from "./views/Cart/CartView";
 import CartService from "./services/CartService";
 import Cart from "./models/Cart";
+import {AuthenticationContext} from "./context/AuthenticationContext";
+import {CartContext} from "./context/CartContext";
 
 function App() {
 
@@ -39,24 +41,28 @@ function App() {
             <a className="title" href="/">M321 Shop</a>
             {token?<a href="/cart" className="cart">
                 <img width={30} src={cartImg} />
-                <div className="cart-number">{cart?.products.length}</div>
+                <div className="cart-number">{cart? cart.products.length: 0}</div>
             </a>: <a href="/login">Sign in</a>}
         </header>
         <main>
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Home />}/>
-                <Route path="/product/:id" element={<ProductDetail/>}/>
-                  <Route path="/cart" element={<CartView/>}/>
-                  {!user? (<>
-                        <Route path="/signup" element={<Signup/>}/>
-                        <Route path="/login" element={<Login/>}/>
-                      </>
-                      ):
-                      ''
-                  }
-              </Routes>
-            </BrowserRouter>
+            <AuthenticationContext.Provider value={{token, setToken, removeToken}}>
+                <CartContext.Provider value={{cart, setCart}}>
+                    <BrowserRouter>
+                      <Routes>
+                        <Route path="/" element={<Home />}/>
+                        <Route path="/product/:id" element={<ProductDetail/>}/>
+                          <Route path="/cart" element={<CartView/>}/>
+                          {!user? (<>
+                                <Route path="/signup" element={<Signup/>}/>
+                                <Route path="/login" element={<Login/>}/>
+                              </>
+                              ):
+                              ''
+                          }
+                      </Routes>
+                    </BrowserRouter>
+                </CartContext.Provider>
+            </AuthenticationContext.Provider>
         </main>
     </>
   )

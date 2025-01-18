@@ -1,16 +1,12 @@
 import './Login.css';
-import {FormEvent, useState} from "react";
+import {FormEvent, useContext, useState} from "react";
 import UserService from "../../services/UserService";
 import {Link, useNavigate} from "react-router";
-import {useSessionStorage} from "../../../hooks/SessionStoragehook";
-
-interface IProps {
-    setToken: (token: string) => void
-}
+import {AuthenticationContext} from "../../context/AuthenticationContext";
 
 export default function Login() {
 
-    const [token, setToken] = useSessionStorage('token');
+    const {setToken} = useContext(AuthenticationContext);
 
     const [error, setError] = useState<string>();
     const navigate = useNavigate();

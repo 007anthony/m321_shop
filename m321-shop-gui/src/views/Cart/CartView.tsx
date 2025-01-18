@@ -1,19 +1,12 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import CartService from "../../services/CartService";
-import {useSessionStorage} from "../../../hooks/SessionStoragehook";
-import Cart from "../../models/Cart";
 import CartItem from "../../components/CartItem/CartItem";
+import {AuthenticationContext} from "../../context/AuthenticationContext";
+import {CartContext} from "../../context/CartContext";
 
 export default function CartView() {
-    const [cart, setCart] = useState<Cart>();
-    const [token] = useSessionStorage("token");
-
-    useEffect(() => {
-        if(token) {
-            CartService.getCart(token)
-                .then(cart => setCart(cart));
-        }
-    }, [token]);
+    const {cart, setCart} = useContext(CartContext);
+    const {token} = useContext(AuthenticationContext);
 
     function removeItem(productId: number) {
         if(token) {

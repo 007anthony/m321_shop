@@ -1,11 +1,11 @@
-import {FormEvent, useState} from "react";
+import {FormEvent, useContext, useState} from "react";
 import User from "../../models/User";
-import {useSessionStorage} from "../../../hooks/SessionStoragehook";
 import UserService from "../../services/UserService";
+import {AuthenticationContext} from "../../context/AuthenticationContext";
 
 export default function Signup() {
 
-    const [token, setToken] = useSessionStorage("token");
+    const {setToken} = useContext(AuthenticationContext)
     const [error, setError] = useState<string>();
 
     function submit(event: FormEvent) {

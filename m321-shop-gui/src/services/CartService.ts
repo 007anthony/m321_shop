@@ -1,4 +1,4 @@
-import {useSessionStorage} from "../../hooks/SessionStoragehook";
+import {useSessionStorage} from "../hooks/SessionStoragehook";
 import Product from "../models/Product";
 
 export default class CartService {
@@ -39,6 +39,12 @@ export default class CartService {
                 productId
             })
         });
+
+        if(response.ok) {
+            return response.json();
+        }
+
+        throw new Error("Couldn't add product to the shopping cart")
     }
 
     static async removeItem(token: string, productId: number) {
