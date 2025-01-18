@@ -32,7 +32,14 @@ function App() {
                 .then(cart => setCart(cart))
                 .catch(e => CartService.createCart(token));
         }
+        else {
+            setUser(undefined);
+        }
     }, [token]);
+
+    function logout() {
+        removeToken();
+    }
 
 
   return (
@@ -42,10 +49,15 @@ function App() {
                 <BrowserRouter>
                     <header>
                         <a className="title" href="/">M321 Shop</a>
-                        {token?<Link to="/cart" className="cart">
-                            <img width={30} src={cartImg} />
-                            <div className="cart-number">{cart? cart.products.length: 0}</div>
-                        </Link>: <Link to="/login">Sign in</Link>}
+                        {token?(
+                            <>
+                            <Link to="/cart" className="cart">
+                                <img width={30} src={cartImg} />
+                                <div className="cart-number">{cart? cart.products.length: 0}</div>
+                            </Link>
+                            <a href="javascript:void(0)" onClick={logout}>Log out</a>
+                            </>
+                        ): <Link to="/login">Sign in</Link>}
                     </header>
                     <main>
                       <Routes>
