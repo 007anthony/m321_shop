@@ -24,7 +24,7 @@ export default function CartView() {
         <>
             <h1>Your Cart</h1>
             <div>
-                {cart? cart.products.map(product => <CartItem removeItem={removeItem} product={product}/>): ''}
+                {cart? cart.products.map(product => <CartItem key={product.id} removeItem={removeItem} product={product}/>): ''}
             </div>
         </>
     )

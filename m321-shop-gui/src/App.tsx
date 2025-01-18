@@ -37,33 +37,33 @@ function App() {
 
   return (
     <>
-        <header>
-            <a className="title" href="/">M321 Shop</a>
-            {token?<a href="/cart" className="cart">
-                <img width={30} src={cartImg} />
-                <div className="cart-number">{cart? cart.products.length: 0}</div>
-            </a>: <a href="/login">Sign in</a>}
-        </header>
-        <main>
-            <AuthenticationContext.Provider value={{token, setToken, removeToken}}>
-                <CartContext.Provider value={{cart, setCart}}>
-                    <BrowserRouter>
+        <AuthenticationContext.Provider value={{token, setToken, removeToken}}>
+            <CartContext.Provider value={{cart, setCart}}>
+                <BrowserRouter>
+                    <header>
+                        <a className="title" href="/">M321 Shop</a>
+                        {token?<Link to="/cart" className="cart">
+                            <img width={30} src={cartImg} />
+                            <div className="cart-number">{cart? cart.products.length: 0}</div>
+                        </Link>: <Link to="/login">Sign in</Link>}
+                    </header>
+                    <main>
                       <Routes>
-                        <Route path="/" element={<Home />}/>
-                        <Route path="/product/:id" element={<ProductDetail/>}/>
-                          <Route path="/cart" element={<CartView/>}/>
-                          {!user? (<>
-                                <Route path="/signup" element={<Signup/>}/>
-                                <Route path="/login" element={<Login/>}/>
-                              </>
-                              ):
-                              ''
-                          }
+                            <Route path="/" element={<Home />}/>
+                            <Route path="/product/:id" element={<ProductDetail/>}/>
+                              <Route path="/cart" element={<CartView/>}/>
+                              {!user? (<>
+                                    <Route path="/signup" element={<Signup/>}/>
+                                    <Route path="/login" element={<Login/>}/>
+                                  </>
+                                  ):
+                                  ''
+                              }
                       </Routes>
-                    </BrowserRouter>
-                </CartContext.Provider>
-            </AuthenticationContext.Provider>
-        </main>
+                    </main>
+                </BrowserRouter>
+            </CartContext.Provider>
+        </AuthenticationContext.Provider>
     </>
   )
 }
