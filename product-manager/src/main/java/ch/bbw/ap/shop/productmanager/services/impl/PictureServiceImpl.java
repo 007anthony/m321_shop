@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 @Service
@@ -43,13 +45,13 @@ public class PictureServiceImpl implements PictureService {
 
         Picture picture = pictureOptional.get();
         String file = String.format("%s/%s", path.trim(), picture.getFilename());
-        InputStream in = getClass().getResourceAsStream(file);
+        Path filePath = Paths.get(file);
 
-        if(in == null) {
+        if(!Files.exists(filePath)) {
             return null;
         }
 
-        return in.readAllBytes();
+        return Files.readAllBytes(filePath);
     }
 
     @Override
