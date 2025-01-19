@@ -39,7 +39,7 @@ spring:
           uri: lb://product-manager
           predicates:
             - Path=/pictures/**
-            - Method=GET
+            - Method=GET,POST
         - id: cart-service
           uri: lb://shopping-cart
           predicates:

@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.print.attribute.standard.Media;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -41,6 +43,11 @@ public class PictureController {
     @PostMapping
     public Picture createPicture(@RequestBody PictureRequest pictureRequest) {
         return pictureService.createPicture(pictureRequest);
+    }
+
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void uploadPicture(@RequestParam Long productId, @RequestParam MultipartFile file) throws IOException {
+        pictureService.uploadPicture(productId, file);
     }
 
     @DeleteMapping("/{id}")

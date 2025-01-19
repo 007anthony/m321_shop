@@ -10,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 
 @Service
@@ -72,6 +74,22 @@ public class PictureServiceImpl implements PictureService {
         pictureRepository.save(picture);
 
         return picture;
+    }
+
+    public void uploadPicture(Long productId, MultipartFile file) throws IOException {
+        Path uploadDirectory = Paths.get(path).resolve(String.valueOf(productId));
+
+        if(!Files.exists(uploadDirectory)) {
+            Files.createDirectories(uploadDirectory);
+        }
+
+        Path filePath = uploadDirectory.resolve(file.getOriginalFilename());
+
+        if(!Files.exists(filePath)) {
+            throw new IOException("The file already exists");
+        }
+
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
     }
 
     @Override
