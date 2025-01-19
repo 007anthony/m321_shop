@@ -6,8 +6,11 @@ import ch.bbw.ap.shop.productmanager.models.Picture;
 import ch.bbw.ap.shop.productmanager.models.PictureRequest;
 import ch.bbw.ap.shop.productmanager.repositories.PictureRepository;
 import ch.bbw.ap.shop.productmanager.services.PictureService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +25,8 @@ import java.util.Optional;
 
 @Service
 public class PictureServiceImpl implements PictureService {
+
+    private final Logger logger = LoggerFactory.getLogger(PictureServiceImpl.class);
 
     @Autowired
     private PictureRepository pictureRepository;
@@ -105,6 +110,18 @@ public class PictureServiceImpl implements PictureService {
         kafkaTemplate.send("pictureTopic", picture);
 
         return true;
+    }
+
+    @KafkaListener(topics="pictureTopic", groupId = "pictureGroup")
+    public void kafkaDeletePicture(Picture picture) {
+        try {
+            Path filePath = Paths.get(path).resolve(picture.getId().toString()).resolve(picture.getFilename());
+
+            Files.deleteIfExists(filePath);
+        }
+        catch(IOException e) {
+            logger.error("Couldn't delete file " + picture.getFilename());
+        }
     }
 
 
